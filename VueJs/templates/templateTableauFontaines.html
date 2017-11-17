@@ -1,0 +1,47 @@
+<template type="text/x-template" id="grid-template">
+		  <table class="table table-responsive">
+			<thead>
+			  <tr>
+					<th>Numéro de la fontaine</th>
+					<th>Adresse</th>
+					<th>Image</th>
+					<th>Voir sur la carte</th>
+					<th>Action</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr v-for="entry in data">
+				<td>
+				{{entry.idFountain}}
+				</td>
+				<td>
+				{{entry.address}}				
+				</td>
+				<td>
+				<img v-bind:src=" './img/fountains/' + entry.img" class='img-thumbnail image-fountains' alt='Image Fontaine' width='50' height='50' data-toggle="modal" data-target="#exampleModal"/>
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog modal-img" role="document">
+					<div class="modal-content">
+					  <div class="modal-body">
+						<img v-bind:src=" './img/fountains/' + entry.img" class="image" alt='Image Fontaine' />
+					  </div>
+					</div>
+				  </div>
+				</div>
+				</td>
+				<td>
+					<a v-bind:href="'index.php?mode=validation&latlng=' + entry.latitude + ',' + entry.longitude"><span class='glyphicon glyphicon-search'></span>
+				</td>
+				<td>
+					<span v-if="entry.active == 0">
+						<a v-bind:href="'valider_fontaine.php?id=' + entry.idFountain + '&mode=1'"><span class="glyphicon glyphicon-ok" title="Activer"></span></a>
+					</span>
+					<span v-if="entry.active == 1">
+						<a v-bind:href="'valider_fontaine.php?id=' + entry.idFountain + '&mode=0'"><span class="glyphicon glyphicon-remove" title="Désactiver"></span></a>
+					</span>
+					<a v-bind:href="'supprimer_fontaine.php?id=' + entry.idFountain"><span class='glyphicon glyphicon-trash' title='Supprimer'></span></a>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+</template>
