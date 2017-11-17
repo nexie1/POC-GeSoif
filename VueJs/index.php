@@ -12,9 +12,8 @@ if (isset($_REQUEST['latlng'])) {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://unpkg.com/vue"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
-        <!--script src="JavaScript/vue.js" type="text/javascript"></script-->
-        <script src="JavaScript/Ge-SoifVue.js" type="text/javascript"></script>
+        <script src="src/vue.js" type="text/javascript"></script>
+        <script src="src/Ge-SoifVue.js" type="text/javascript"></script>
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">-->
         <link href="bs/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <!-- Optional theme -->
@@ -73,9 +72,9 @@ if (isset($_REQUEST['latlng'])) {
 
         </form>
     </div>
-    <div id="vue-map">
+    <!--<div id="vue-map">-->
   <div id="map_canvas1"></div>
-</div>
+<!--</div>-->
     <div class="slideAddNewBtn">
         <button v-if="isDisplayed" v-on:click="show"><img class="btnAjt" src="./img/AddBtn.png" alt=""/></button>
     </div>

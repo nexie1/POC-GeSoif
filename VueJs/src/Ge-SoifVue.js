@@ -73,6 +73,13 @@ $(document).ready(function () {
             //var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
         }
     });
-
+/*----------------------------------------------------*/
+    var Lien = new Vue({
+        el: '#index',
+        data: {
+            message: "GE-Soif",
+            link: 'index.php'
+        }
+    });
    
 });
