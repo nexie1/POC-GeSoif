@@ -5,6 +5,7 @@ if (isset($_REQUEST['latlng'])) {
     $input_cache_latlng = $_REQUEST['latlng'];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -33,10 +34,19 @@ if (isset($_REQUEST['latlng'])) {
     <?php
     include("./Menu/MenuDeco.php");
     ?>
+
+    
+<!--<div id="demo">
+    <p><i>myInstanceAddress</i> Property</p>
+    <pre>{{ myInstanceAddress | json }}</pre>
+            <input id="addressInput" type="text" />
+        </div>-->
+
+
     <!--Affichage du div d'ajout de fontaine-->
     <div v-if="isDisplayed" class="slideAddFountain">
         <!-- Mettre tout les trucs pour add une foutaine -->
-        <form action="#" method="POST">
+        <form action="# " method="POST">
             <div class="row" >
                 <div  class="col-xs-offset-2 col-xs-10">                        
                     <label class="label label-info"> Adresse choisie : </label>      
@@ -72,9 +82,9 @@ if (isset($_REQUEST['latlng'])) {
 
         </form>
     </div>
-    <!--<div id="vue-map">-->
+    <div id="vue-map">
   <div id="map_canvas1"></div>
-<!--</div>-->
+</div>
     <div class="slideAddNewBtn">
         <button v-if="isDisplayed" v-on:click="show"><img class="btnAjt" src="./img/AddBtn.png" alt=""/></button>
     </div>
