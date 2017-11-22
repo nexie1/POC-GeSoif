@@ -10,14 +10,21 @@
         </div>
 
         <div id="navInfo" class="navbar-collapse collapse" style="float: right;">
-            <li class="nav navbar-form navbar-left" aria-label="Left Align" ><a href="./about.php" style="color : white"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span> A propos</a></li>
+            <ul>
+            <li class="nav navbar-form navbar-left" aria-label="Left Align" ><a href="./about.php" style="color : white"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span> A propos</a></li></ul>
         </div>
-        <div v-if="isDisplayed" class="alert_popup">
-            <div class="alert alert-success" id="alert_template">
-                <button v-on:click="closed" type="button" class="close">×</button><span>Merci ! Votre fontaine a bien été ajoutée. Un administrateur doit la valider pour qu'elle soit visible.</span>
-            </div>
-        </div>
-        <!--img id="btnShowAddFountain" alt="Ajouter une fontaine" src="./img/Ge-Soif-Glyphicons/AddBtn.png"/>
-        <!--/.nav-collapse -->
+  
+            
     </div>
-</nav><!--./navbar-->
+</nav>
+<!--div class="alert alert-success alert_popupValid" v-on:click ="closed" id="alert_template" v-if="isDisplay">
+    <button v-on:click ="closed" class="close">×</button><span>Merci ! Votre fontaine a bien été ajoutée. Un administrateur doit la valider pour qu'elle soit visible.</span>
+ </div>
+ 
+<div class="alert alert-danger alert_popupUnvalid" v-on:click ="closed" id="alert_template" v-if="isDisplay">
+    <button v-on:click ="closed" class="close">×</button><span>Votre fontaine n'a pas été ajoutée.</span>
+</div-->
+
+<div id="alert_template" class="alert alert_popup" v-bind:class="{ 'alert-danger': isDanger, 'alert-success': isSuccess}" v-on:click ="closed" v-if="isDisplay">
+    <button class="close">×</button><span>{{message}}</span>
+</div>

@@ -96,15 +96,14 @@ button {
 
 #alert_template {
     position: absolute;
-    z-index: 5;
+    z-index: 1056;
     padding: 5px;
     text-align: center;
     line-height: 15px;
-    margin-left: 36%;
+    margin-left: 55%;
     width: 43%;
     top: 5px;
 }
-
 
 /*Code pour bien placer la search box
 

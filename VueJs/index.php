@@ -43,10 +43,11 @@ if (isset($_REQUEST['latlng'])) {
         </div>-->
 
 
+
     <!--Affichage du div d'ajout de fontaine-->
-    <div v-if="isDisplayed" class="slideAddFountain">
+    <div v-if="isDisplayed" class="slideAddFountain">   
+
         <!-- Mettre tout les trucs pour add une foutaine -->
-        <form action="# " method="POST">
             <div class="row" >
                 <div  class="col-xs-offset-2 col-xs-10">                        
                     <label class="label label-info"> Adresse choisie : </label>      
@@ -54,7 +55,7 @@ if (isset($_REQUEST['latlng'])) {
             </div>
             <div class="row">
                 <div id="divBtnLocation"  class="col-xs-2">
-                    <button class="littleImg" v-on:click="location" type="button" class="StyleBtn"><img class="stylePhoto" id="actualPos" src="img/Ge-Soif-Glyphicons/LocationON.png" alt="image location"></button>
+                    <button class="littleImg StyleBtn" v-on:click="location" type="button"><img class="stylePhoto" id="actualPos" src="img/Ge-Soif-Glyphicons/LocationON.png" alt="image location"></button>
                 </div>
                 <div  class="col-xs-6">
                     <input type="text" class="form-control" name="address" id="address" placeholder="">
@@ -62,12 +63,13 @@ if (isset($_REQUEST['latlng'])) {
                 <div class="col-xs-3">                        
                     <div class="image-upload">
                         <label for="FileInput">
-                            <img class="littleImg" v-on:click="addPhoto" class="stylePhoto" id="AddPhoto" alt="Ajouter une photo" src="img/Ge-Soif-Glyphicons/AddPhotoBtn.png">
+                            <img v-on:click="addPhoto" class="stylePhoto littleImg" id="AddPhoto" alt="Ajouter une photo" src="img/Ge-Soif-Glyphicons/AddPhotoBtn.png">
                         </label>
                         <input type="file" class="col-xs-3 form-control-file" accept="image/*" name="imgFile" id="FileInput"/>
                     </div>                               
                 </div>
             </div>
+
 
                 <!--button><img src="img/Ge-Soif-Glyphicons/AddPhotoBtn.png" alt=""/></button-->
 
@@ -76,19 +78,25 @@ if (isset($_REQUEST['latlng'])) {
                 </div>
                 <div class="btn-group col-xs-6">
                     <button v-on:click="valid" type="submit" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/ValidBtn.png" id='btnAddFountain' alt="Ajouter la fontaine"/>
-                        <button v-on:click="cancel" type="button"  class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/CancelBtn.png" id='btnCancelAddFountain' alt="Annuler"></button>
+                        <button v-on:click="cancel" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/CancelBtn.png" id='btnCancelAddFountain' alt="Annuler"></button>
                 </div>
             </div>
 
-        </form>
     </div>
+
+
+
     <div id="vue-map">
   <div id="map_canvas1"></div>
+  <!--div v-on:click="markerMap" id="map_canvas1"></div>
+    <input type="text" id="lngFld">
+  <input type="text" id="latFld"-->
 </div>
+
+
     <div class="slideAddNewBtn">
         <button v-if="isDisplayed" v-on:click="show"><img class="btnAjt" src="./img/AddBtn.png" alt=""/></button>
     </div>
-
     <!--<div>
             <button v-on:click="show"><img class="btnAjt" src="../AddBtn.png" alt=""/></button>
         </div>
