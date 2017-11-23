@@ -2,8 +2,8 @@
 $(document).ready(function () {
 
 var timeClosed = 3000; // Temps avant disparition pop-up
-
-
+var markerEnable = false;
+var tableauMarkers = [];
 
 /******************************************************
 ************** Affichage Slide + Pop-up ****************
@@ -45,7 +45,6 @@ var timeClosed = 3000; // Temps avant disparition pop-up
             location: function () {
                 // Mettre fonction Localisation
             }
-
         }
     });
 
@@ -59,7 +58,7 @@ var timeClosed = 3000; // Temps avant disparition pop-up
             show: function () {
                 this.isDisplayed = false; //Cache le bouton d'ajout de fontaine
                 slideAddFountain.isDisplayed = true; //Affiche le div d'ajout de fontaine
-
+                markerEnable = true;
             }
         }
     });
@@ -134,7 +133,9 @@ var timeClosed = 3000; // Temps avant disparition pop-up
                     this.message = 'Votre fontaine n\'a pas été ajoutée.';
                 }
                 this.isDisplay = true;
-                
+                markerEnable = false;
+                removeMarkers();
+
                 setTimeout( function() {
                     alert_popup.closed();
                     alert_popup.isSuccess = false;
@@ -165,46 +166,69 @@ var timeClosed = 3000; // Temps avant disparition pop-up
     
     //Ajout des markers
     google.maps.event.addListener(map, 'click', function(event) {
-    placeMarker(event.latLng);
-});
+        if (markerEnable == true) {
+        placeMarker(event.latLng);               
+        }
+    });
 
-    function placeMarker(location) {
-    var marker = new google.maps.Marker({
-        position: location, 
-        map: map,
-        icon: 'img/newFountainIcon.png'
-        });
+        function placeMarker(location) {
+            removeMarkers();
+            var marker = new google.maps.Marker({
+            position: location, 
+            map: map,
+            icon: 'img/newFountainIcon.png'
+            });
+            tableauMarkers.push(marker);
+        }
+    }
+    
+});
+    function removeMarkers(){
+    for(i = 0; i < tableauMarkers.length; i++){
+        tableauMarkers[i].setMap(null);
     }
 }
-});
 
+    /*var map = new Vue({
+    el: '#vue-map',
+    data: {
+    
+  },
+    mounted: function() {
+    var myOptions = {
+        minZoom: 4,
+        zoom: 12,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: new google.maps.LatLng(46.2, 6.1667)
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
+    
+    //Ajout des markers
+    google.maps.event.addListener(map, 'click', function(event) {
+        placeMarker(event.latLng);   
+    });
 
-    /*
-
-    var removeMarker = new Vue({
-
-    })
-
-
-    var marker = new Vue({
-        //el: '',
-        data: {
-
-        },
-        click: function() {
-            if (exist == true) {
-                removeMarker(); //fonction future
-                exist = false;
-                marker.click();
-            }
-            else{
-                addMarkerOnPos(); //fonction future
-                exist = true;
-            }
+        function placeMarker(location) {
+            removeMarkers();
+            var marker = new google.maps.Marker({
+            position: location, 
+            map: map,
+            icon: 'img/newFountainIcon.png'
+            });
+            tableauMarkers.push(marker);
         }
-        
-    })
-*/
+    }
+    
+});
+    function removeMarkers(){
+    for(i = 0; i < tableauMarkers.length; i++){
+        tableauMarkers[i].setMap(null);
+    }
+}*/
+
+
+
+
 /******************************************************
 ******************** Modif HTML ***********************
 *******************************************************/
