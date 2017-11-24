@@ -2,9 +2,16 @@
 $(document).ready(function () {
 
 var timeClosed = 3000; // Temps avant disparition pop-up
+<<<<<<< HEAD
 var markerEnable = false;
 var tableauMarkers = [];
 var tableauMarkersFountain = [];
+=======
+var markerEnable = false; // Active le mode d'ajout de marker
+var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des markers
+
+
+>>>>>>> 0576fa97d7f812ab12d17c55cc9d8e5fc92fb17b
 
 /******************************************************
 ************** Affichage Slide + Pop-up ****************
@@ -22,17 +29,20 @@ var tableauMarkersFountain = [];
                 // Envoi dans la BD
                 this.isDisplayed = false;//Cache le div d'ajout de fontaine
                 slideAddFountainBtn.isDisplayed = true; //Affiche le bouton à la fermeture de la slide
+<<<<<<< HEAD
                 //alert_popupValid.show(); // Affiche la pop-up de validation par l'admin
                 alert_popup.show("valide");
                 tableauMarkersFountain[0] += tableauMarkers[0];
+=======
+                alert_popup.show("valide"); // Affiche la pop-up de validation par l'admin
+>>>>>>> 0576fa97d7f812ab12d17c55cc9d8e5fc92fb17b
             },
 
             // Quitte le mode "slideAddFountain"
             cancel: function () {
                 this.isDisplayed = false;//Cache le div d'ajout de fontaine
                 slideAddFountainBtn.isDisplayed = true; //Affiche le bouton à la fermeture de la slide
-                //alert_popupUnvalid.show(); // Affiche la pop-up d'erreur de la validation de fontaine
-                alert_popup.show("cancele");
+                alert_popup.show("cancele"); // Affiche la pop-up d'erreur de la validation de fontaine
             },
 
             // Ouvre le menu pour ajouter une photo TODO
@@ -58,7 +68,7 @@ var tableauMarkersFountain = [];
             show: function () {
                 this.isDisplayed = false; //Cache le bouton d'ajout de fontaine
                 slideAddFountain.isDisplayed = true; //Affiche le div d'ajout de fontaine
-                markerEnable = true;
+                markerEnable = true; // Active le mode ajout marker
             }
         }
     });
@@ -71,54 +81,66 @@ var tableauMarkersFountain = [];
 
         data: {
             isDisplay: false, //Ne s'affiche pas au chargement de la page
-            message: "",
+            message: "", // Initialise le message à ø 
+            
+            // Choix de la classe pour la notification
             isSuccess: false,
             isDanger: false,
         },
         methods: {
             closed: function () {
+                // Cache la fenêtre de notification
                 this.isDisplay = false;
             },
             show: function(from) {
                 if(from == "valide") {
-                    this.isSuccess = "true";
-                    this.message = 'Merci ! Votre fontaine a bien été ajoutée. Un administrateur doit la valider pour quelle soit visible.';
+                    this.isSuccess = "true"; // Met la classe "alert-success"
+                    this.message = 'Merci ! Votre fontaine a bien été ajoutée. Un administrateur doit la valider pour quelle soit visible.'; // Ajoute le contenu à la notification
                 }
                 else if(from == "cancele") {
                     this.isDanger = "true";
                     this.message = 'Votre fontaine n\'a pas été ajoutée.';
                 }
-                this.isDisplay = true;
-                markerEnable = false;
-                removeMarkers();
+                this.isDisplay = true; // Affiche la notification
+                markerEnable = false; // Désactive le mode d'ajout de marker
+                map2.removeMarkers(); // Supprime le marker existant
 
+                // Ferme la fenêtre après un certain temps (timeClosed)
                 setTimeout( function() {
-                    alert_popup.closed();
-                    alert_popup.isSuccess = false;
+                    alert_popup.closed(); // Cache la fenêtre de notification
+                    // Désactive la class de la notif
+                    alert_popup.isSuccess = false; 
                     alert_popup.isDanger = false;
                 }, timeClosed);
             }
         }
     });
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 0576fa97d7f812ab12d17c55cc9d8e5fc92fb17b
 /******************************************************
 ******************** MAP ******************************
 *******************************************************/
 
-    var map = new Vue({
-    el: '#vue-map',
-    data: {
+    var map2 = new Vue({
+        el: '#vue-map',
+        data: {  
+            map:null,
+        },
+
+        mounted: function() {
+            var myOptions = {
+                minZoom: 4, // Définit le niveau de zoom minimum de la map
+                zoom: 12, // Définit le niveau de zoom de la map lors du chargement du site
+                mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
+                center: new google.maps.LatLng(46.2, 6.1667) // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
+            };
+            this.map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
     
-  },
-    mounted: function() {
-    var myOptions = {
-        minZoom: 4,
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: new google.maps.LatLng(46.2, 6.1667)
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
-    
+<<<<<<< HEAD
     
     google.maps.event.addListener(map, 'click', function(event) {     
                        
@@ -193,56 +215,116 @@ var tableauMarkersFountain = [];
     }
     
 }
-
-    /*var map = new Vue({
-    el: '#vue-map',
-    data: {
+=======
+            //Ajout des markers
+            google.maps.event.addListener(this.map, 'click', function(event) {
+                if (markerEnable == true) {
+                    map2.placeMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
+                }
+            });
+        },
+        methods: {
+            placeMarker: function(location) {
+                this.removeMarkers();
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: this.map,
+                    icon: 'img/newFountainIcon.png'
+                });
+                tableauMarkers.push(marker);
+            },
+            removeMarkers: function() {
+                for (i = 0; i < tableauMarkers.length; i++) {
+                    tableauMarkers[i].setMap(null);
+                }
+            }
+        }
     
-  },
-    mounted: function() {
-    var myOptions = {
-        minZoom: 4,
-        zoom: 12,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: new google.maps.LatLng(46.2, 6.1667)
-    };
-    var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
-    
-    //Ajout des markers
-    google.maps.event.addListener(map, 'click', function(event) {
-        placeMarker(event.latLng);   
     });
 
-        function placeMarker(location) {
-            removeMarkers();
-            var marker = new google.maps.Marker({
-            position: location, 
-            map: map,
-            icon: 'img/newFountainIcon.png'
-            });
-            tableauMarkers.push(marker);
-        }
-    }
-    
-});
-    function removeMarkers(){
-    for(i = 0; i < tableauMarkers.length; i++){
-        tableauMarkers[i].setMap(null);
-    }
-}*/
 
+
+/*
+    var markerAddFountain = new Vue({ 
+        data: {
+
+        },
+        methods: {
+            placeMarker: function(location) {
+                markerAddFountain.removeMarkers();
+
+            var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map.mounted,
+                    icon: 'img/newFountainIcon.png'
+                });
+                tableauMarkers.push(marker);
+            },
+            removeMarkers: function() {
+                for (i = 0; i < tableauMarkers.length; i++) {
+                    tableauMarkers[i].setMap(null);
+                }
+            }
+        }
+    });
+*/
+
+>>>>>>> 0576fa97d7f812ab12d17c55cc9d8e5fc92fb17b
+
+    /*var map = new Vue({
+        el: '#vue-map',
+        data: {  
+        },
+
+        mounted: function() {
+            var myOptions = {
+                minZoom: 4, // Définit le niveau de zoom minimum de la map
+                zoom: 12, // Définit le niveau de zoom de la map lors du chargement du site
+                mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
+                center: new google.maps.LatLng(46.2, 6.1667) // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
+    
+            //Ajout des markers
+            google.maps.event.addListener(map, 'click', function(event) {
+                if (markerEnable == true) {
+                    placeMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
+                }
+            });
+
+            function placeMarker(location) {
+                removeMarkers(); // Supprime le marker existant
+                var marker = new google.maps.Marker({ 
+                    position: location, // Va placer le marker à l'endroit du clic de la souris
+                    map: map, // La map sur laquelle le système de marker est "map_canvas1" définit plus haut
+                    icon: 'img/newFountainIcon.png' // L'icône de base de Google est remplacée par une image personnalisée
+                });
+                tableauMarkers.push(marker); // Place le marker dans le tableau
+            }
+        },
+    
+    });
+
+    function removeMarkers(){ // Fonction qui supprime le marker déjà existant
+        for(i = 0; i < tableauMarkers.length; i++){
+            tableauMarkers[i].setMap(null);
+        }
+    }*/
 
 
 
 /******************************************************
 ******************** Modif HTML ***********************
 *******************************************************/
+
     var Lien = new Vue({
         el: '#index',
         data: {
             message: "GE-Soif",
             link: 'index.php'
         }
+<<<<<<< HEAD
     });
 
 
@@ -404,3 +486,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 </body>*/
+=======
+    });   
+});
+>>>>>>> 0576fa97d7f812ab12d17c55cc9d8e5fc92fb17b
