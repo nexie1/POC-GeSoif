@@ -4,12 +4,11 @@ $(document).ready(function () {
 var timeClosed = 3000; // Temps avant disparition pop-up
 var markerEnable = false;
 var tableauMarkers = [];
+var tableauMarkersFountain = [];
 
 /******************************************************
 ************** Affichage Slide + Pop-up ****************
 *******************************************************/
-
-
 
     // Slide contenant tous les boutons permettant d'ajouter une fontaine
     var slideAddFountain = new Vue({
@@ -25,6 +24,7 @@ var tableauMarkers = [];
                 slideAddFountainBtn.isDisplayed = true; //Affiche le bouton à la fermeture de la slide
                 //alert_popupValid.show(); // Affiche la pop-up de validation par l'admin
                 alert_popup.show("valide");
+                tableauMarkersFountain[0] += tableauMarkers[0];
             },
 
             // Quitte le mode "slideAddFountain"
@@ -63,53 +63,9 @@ var tableauMarkers = [];
         }
     });
 
-
-
 /******************************************************
 ******************** POP-UP ***************************
 *******************************************************/
-/*
-    var alert_popupValid = new Vue({
-        el: '.alert_popupValid',
-        data: {
-            isDisplay: false //Ne s'affiche pas au chargement de la page
-        },
-        methods: {
-            closed: function () {
-                this.isDisplay = false;
-            },
-            show: function() {
-                this.isDisplay = true;
-
-                setTimeout( function() {
-                    alert_popupValid.closed();
-                }, timeClosed);
-            }
-        }
-    });
-
-    var alert_popupUnvalid = new Vue({
-        el: '.alert_popupUnvalid',
-        data: {
-            isDisplay: false //Ne s'affiche pas au chargement de la page
-        },
-        methods: {
-            closed: function () {
-                this.isDisplay = false;
-            },
-            show: function() {
-                this.isDisplay = true;
-                
-                setTimeout( function() {
-                    alert_popupUnvalid.closed();
-                }, timeClosed);
-            }
-        }
-    });
-
-*/
-
-
     var alert_popup = new Vue({
         el: '.alert_popup',
 
@@ -145,7 +101,6 @@ var tableauMarkers = [];
         }
     });
 
-
 /******************************************************
 ******************** MAP ******************************
 *******************************************************/
@@ -164,13 +119,57 @@ var tableauMarkers = [];
     };
     var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
     
-    //Ajout des markers
-    google.maps.event.addListener(map, 'click', function(event) {
+    
+    google.maps.event.addListener(map, 'click', function(event) {     
+                       
         if (markerEnable == true) {
-        placeMarker(event.latLng);               
-        }
+            
+            placeMarker(event.latLng);      
+            
+            // adding listener, so infowindow is opened   
+            
+        }     
     });
-
+    marker.addListener('click', function(event) {
+                console.log("marker was clicked");
+                infowindow.open(map, marker);
+            });
+    
+    
+    
+    // preparing infowindow
+            var infowindow = new google.maps.InfoWindow({
+                content: '<h4>info:</h4>' + '<info><h2 v-on="click: hello">{{title}}</h2><br/>Lsdaqawdfqawdqwdqwdqwdqwdqwdqwdqwdqw</info>'
+            });           
+            google.maps.event.addListener(infowindow, 'domready', function() {
+                var info = new Vue({
+                    data: function() {
+                        return {
+                            title: undefined
+                        };
+                    },
+                    ready: function() {
+                        this.title = 'title ' + Math.floor((Math.random() * 10) + 1);
+                    },
+                    el: function() {
+                        return 'info';
+                    },
+                    methods: {
+                        hello: function() {
+                            console.log('clicked !!!');
+                        }
+                    }
+                });
+            });
+            function placeMarkerFountain(location2) {
+            var marker2 = new google.maps.Marker({
+            position: location2, 
+            map: map,
+            icon: 'img/geSoifExistingMarker'
+            });
+            tableauMarkersFountain.push(marker2);
+        }
+           
         function placeMarker(location) {
             removeMarkers();
             var marker = new google.maps.Marker({
@@ -180,13 +179,19 @@ var tableauMarkers = [];
             });
             tableauMarkers.push(marker);
         }
+    },
+    components: {
+        info: Vue.extend({
+            el:  function() { return 'info'; },
+            template: '<h2>hello</h2>'
+        })
     }
-    
 });
     function removeMarkers(){
     for(i = 0; i < tableauMarkers.length; i++){
         tableauMarkers[i].setMap(null);
     }
+    
 }
 
     /*var map = new Vue({
@@ -240,5 +245,162 @@ var tableauMarkers = [];
         }
     });
 
+
+
+
+
+
+
+  /*window.initMap = function() {
+    app.$emit('google.maps:init');
+    console.log('fired message');
+};*/
+    
+/*var app = new Vue({
+    el: 'body',
+    events: {
+        'google.maps:init': function() {
+            // init google map
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 53.539806,
+                    lng: 9.990993
+                },
+                zoom: 12
+            });
+            // add marker
+            var marker = new google.maps.Marker({
+                position: {
+                    lat: 53.539806,
+                    lng: 9.990993
+                },
+                map: map,
+                label: 'A'
+            });
+            // preparing infowindow
+            var infowindow = new google.maps.InfoWindow({
+                content: '<h4>info:</h4>' + '<info><h2 v-on="click: hello">{{title}}</h2><br/>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</info>'
+            });
+            // adding listener, so infowindow is opened
+            marker.addListener('click', function(event) {
+                console.log("marker was clicked");
+                infowindow.open(map, marker);
+            });
+            google.maps.event.addListener(infowindow, 'domready', function() {
+                var info = new Vue({
+                    data: function() {
+                        return {
+                            title: undefined
+                        };
+                    },
+                    ready: function() {
+                        this.title = 'title ' + Math.floor((Math.random() * 10) + 1);
+                    },
+                    el: function() {
+                        return 'info';
+                    },
+                    methods: {
+                        hello: function() {
+                            console.log('clicked !!!');
+                        }
+                    }
+                });
+            });
+        }
+    },
+    components: {
+        info: Vue.extend({
+            el:  function() { return 'info'; },
+            template: '<h2>hello</h2>'
+        })
+    }
+});*/
+   
+   
+  
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
    
 });
+
+
+
+
+
+
+
+
+
+
+
+
+/*<body>
+  <div id="root">
+    <label>
+      Das Label
+      <gmap-autocomplete :value="description"
+        @place_changed="setPlace">
+      </gmap-autocomplete>
+    </label>
+    <br/>
+    {{latLng.lat}},
+    {{latLng.lng}}
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.8/vue.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+<script src="vue-google-maps.js"></script>
+
+<script>
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBzlLYISGjL_ovJwAehh6ydhB56fCCpPQw',
+    libraries: 'places'
+  },
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  new Vue({
+    el: '#root',
+    data: {
+      description: 'Singapore',
+      latLng: {}
+    },
+    methods: {
+      setDescription(description) {
+        this.description = description;
+      },
+      setPlace(place) {
+        this.latLng = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng(),
+        };
+      }
+    }
+  });
+});
+
+</script>
+
+</body>*/
