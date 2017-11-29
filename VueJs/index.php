@@ -102,6 +102,9 @@ if (isset($_REQUEST['latlng'])) {
         </div>
     </div>-->
     <div id="map"></div>
+    
+    
+    
     <script src="bs/js/bootstrap.min.js" type="text/javascript"></script>
     <?php
 //show the correct modal if there was an error
