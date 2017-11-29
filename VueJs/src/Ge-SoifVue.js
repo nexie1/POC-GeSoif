@@ -4,6 +4,8 @@ $(document).ready(function () {
 var timeClosed = 3000; // Temps avant disparition pop-up
 var markerEnable = false; // Active le mode d'ajout de marker
 var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des markers
+var tableauMarkersValider = []; // Tableau ou sont stockées les coordonnées des markers
+var positionProvisoire = [];
 
 
 
@@ -93,7 +95,7 @@ var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des marke
                 }
                 this.isDisplay = true; // Affiche la notification
                 markerEnable = false; // Désactive le mode d'ajout de marker
-                map2.removeMarkers(); // Supprime le marker existant
+                mapVue.removeMarkers(); // Supprime le marker existant
 
                 // Ferme la fenêtre après un certain temps (timeClosed)
                 setTimeout( function() {
@@ -112,7 +114,7 @@ var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des marke
 ******************** MAP ******************************
 *******************************************************/
 
-    var map2 = new Vue({
+    var mapVue = new Vue({
         el: '#vue-map',
         data: {  
             map:null,
@@ -123,19 +125,20 @@ var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des marke
                 minZoom: 4, // Définit le niveau de zoom minimum de la map
                 zoom: 12, // Définit le niveau de zoom de la map lors du chargement du site
                 mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
-                center: new google.maps.LatLng(46.2, 6.1667) // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
+                center: new google.maps.LatLng(46.2, 6.1667), // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
             };
             this.map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
-    
+            this.markerFountainPlaced();
+
             //Ajout des markers
             google.maps.event.addListener(this.map, 'click', function(event) {
                 if (markerEnable == true) {
-                    map2.placeMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
+                    mapVue.placeMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
         },
         methods: {
-            placeMarker: function(location) {
+            placeMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
                 this.removeMarkers();
                 var marker = new google.maps.Marker({
                     position: location,
@@ -144,83 +147,38 @@ var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des marke
                 });
                 tableauMarkers.push(marker);
             },
-            removeMarkers: function() {
+            removeMarkers: function() { // Fonction qui supprime ke marker précédent
                 for (i = 0; i < tableauMarkers.length; i++) {
                     tableauMarkers[i].setMap(null);
                 }
-            }
-        }
-    
-    });
-
-
-
-/*
-    var markerAddFountain = new Vue({ 
-        data: {
-
-        },
-        methods: {
-            placeMarker: function(location) {
-                markerAddFountain.removeMarkers();
-
-            var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions);
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: map.mounted,
-                    icon: 'img/newFountainIcon.png'
-                });
-                tableauMarkers.push(marker);
             },
-            removeMarkers: function() {
-                for (i = 0; i < tableauMarkers.length; i++) {
-                    tableauMarkers[i].setMap(null);
+            markerFountainPlaced: function(){ // Fonction qui affiche 7 markers sur la map
+                var infowindow = new google.maps.InfoWindow;
+                var geocoder = new google.maps.Geocoder();
+                positionProvisoire[0] = {lat: 46.184, lng: 6.148};
+                positionProvisoire[1] = {lat: 46.193, lng: 6.107};
+                positionProvisoire[2] = {lat: 46.205, lng: 6.157};
+                positionProvisoire[3] = {lat: 46.210, lng: 6.143};
+                positionProvisoire[4] = {lat: 46.198, lng: 6.142};
+                positionProvisoire[5] = {lat: 46.179, lng: 6.128};
+                positionProvisoire[6] = {lat: 46.230, lng: 6.110};
+                for (i = 0; i < positionProvisoire.length; i++) {
+                    var markerPlaced = new google.maps.Marker({
+                        position: positionProvisoire[i],
+                        map: this.map,
+                        icon: 'img/geSoifExistingMarker.png'
+                    });
+                    tableauMarkersValider.push(markerPlaced);
+
+                    markerPlaced.addListener('click', function() {
+                        infowindow.setContent(positionProvisoire[0].lat.toString() + " / " + positionProvisoire[0].lng.toString()).formatted_address /*(results[0].formatted_address)*/;
+                        infowindow.open(this.map, markerPlaced);
+                    });
                 }
             }
         }
-    });
-*/
-
-
-    /*var map = new Vue({
-        el: '#vue-map',
-        data: {  
-        },
-
-        mounted: function() {
-            var myOptions = {
-                minZoom: 4, // Définit le niveau de zoom minimum de la map
-                zoom: 12, // Définit le niveau de zoom de la map lors du chargement du site
-                mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
-                center: new google.maps.LatLng(46.2, 6.1667) // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
-            };
-            var map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
-    
-            //Ajout des markers
-            google.maps.event.addListener(map, 'click', function(event) {
-                if (markerEnable == true) {
-                    placeMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
-                }
-            });
-
-            function placeMarker(location) {
-                removeMarkers(); // Supprime le marker existant
-                var marker = new google.maps.Marker({ 
-                    position: location, // Va placer le marker à l'endroit du clic de la souris
-                    map: map, // La map sur laquelle le système de marker est "map_canvas1" définit plus haut
-                    icon: 'img/newFountainIcon.png' // L'icône de base de Google est remplacée par une image personnalisée
-                });
-                tableauMarkers.push(marker); // Place le marker dans le tableau
-            }
-        },
     
     });
-
-    function removeMarkers(){ // Fonction qui supprime le marker déjà existant
-        for(i = 0; i < tableauMarkers.length; i++){
-            tableauMarkers[i].setMap(null);
-        }
-    }*/
 
 
 

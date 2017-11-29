@@ -105,6 +105,19 @@ button {
     top: 5px;
 }
 
+#slide{
+    text-align: center;
+    margin: auto;
+    padding: 10px 10px 10px 10px;
+    background: #fff;
+    /*width: 95%;*/
+    position: fixed;
+    z-index:4;
+    bottom: 20px;
+    border: solid 3px #0c83e2;
+    border-radius: 0 20px 20px 0;
+    left: -100%;
+}
 /*Code pour bien placer la search box
 
 .controls {

@@ -28,5 +28,5 @@
       places importantes,Place importante,place importante,
       Emplacements Fontaines, Emplacements fontaines, Emplacement Fontaine,
       emplacements fontaines,emplacement fontaine">
-<meta name="author" content="Gabriel Strano, Nohan Budry, Yohann Perez, Jasmina Travnjak, Antonio Pisanello,Robin Plojoux,Ardi Ramushi, Simon Fanetti,Raphael Ferreira">
+<meta name="author" content="Gabriel Strano, Nohan Budry, Yohann Perez, Jasmina Travnjak, Antonio Pisanello,Robin Plojoux,Ardi Ramushi, Simon Fanetti,Raphael Ferreira, Corentin Cotture, Dany Serigado, Marco fernadez">
 
