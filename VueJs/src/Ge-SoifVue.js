@@ -3,8 +3,6 @@ $(document).ready(function () {
 
 var timeClosed = 3000; // Temps avant disparition pop-up
 var markerEnable = false; // Active le mode d'ajout de marker
-var tableauMarkers = []; // Tableau ou sont stockées les coordonnées des markers
-var tableauMarkersValider = []; // Tableau ou sont stockées les coordonnées des markers
 var positionProvisoire = [];
 
 
@@ -118,6 +116,8 @@ var positionProvisoire = [];
         el: '#vue-map',
         data: {  
             map:null,
+            existingFountainMarkers:[], // Tableau ou sont stockées les coordonnées des markers
+            newMarker:null
         },
 
         mounted: function() {
@@ -138,43 +138,57 @@ var positionProvisoire = [];
             });
         },
         methods: {
-            placeMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
-                this.removeMarkers();
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: this.map,
-                    icon: 'img/newFountainIcon.png'
-                });
-                tableauMarkers.push(marker);
-            },
-            removeMarkers: function() { // Fonction qui supprime ke marker précédent
-                for (i = 0; i < tableauMarkers.length; i++) {
-                    tableauMarkers[i].setMap(null);
+            placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
+                this.removeNewMarkers();
+                if(this.newMarker === null){
+                    this.newMarker = new google.maps.Marker({
+                        position: location,
+                        map: this.map,
+                        icon: 'img/newFountainIcon.png'
+                    });
                 }
             },
+            removeNewMarker: function() { // Fonction qui supprime ke marker précédent
+                if(this.newMarker !== null) {
+                    this.newMarker.setMap(null);
+                    this.newMarker = null;
+                    }
+            },
+            addMarkersClickListener: function(clickedMarker, infoWindow) {
+                    var infoWindow = new google.maps.InfoWindow;
+
+                    $.each(this.existingFountainMarkers, function(index, value){
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({'latLng': value.position}, function(result, status){
+                        var res = result;
+                        value.addListener("click", function(){
+                            infoWindow.setContent(res[0].formatted_address);
+                            infoWindow.open(this.map, value);    
+                        }
+                        );
+                    });
+                    });
+            },
             markerFountainPlaced: function(){ // Fonction qui affiche 7 markers sur la map
-                var infowindow = new google.maps.InfoWindow;
-                var geocoder = new google.maps.Geocoder();
+               
                 positionProvisoire[0] = {lat: 46.184, lng: 6.148};
                 positionProvisoire[1] = {lat: 46.193, lng: 6.107};
                 positionProvisoire[2] = {lat: 46.205, lng: 6.157};
                 positionProvisoire[3] = {lat: 46.210, lng: 6.143};
                 positionProvisoire[4] = {lat: 46.198, lng: 6.142};
-                positionProvisoire[5] = {lat: 46.179, lng: 6.128};
+                positionProvisoire[5] = {lat: 46.183, lng: 6.136}; 
                 positionProvisoire[6] = {lat: 46.230, lng: 6.110};
+
                 for (i = 0; i < positionProvisoire.length; i++) {
                     var markerPlaced = new google.maps.Marker({
                         position: positionProvisoire[i],
                         map: this.map,
                         icon: 'img/geSoifExistingMarker.png'
                     });
-                    tableauMarkersValider.push(markerPlaced);
-
-                    markerPlaced.addListener('click', function() {
-                        infowindow.setContent(positionProvisoire[0].lat.toString() + " / " + positionProvisoire[0].lng.toString()).formatted_address /*(results[0].formatted_address)*/;
-                        infowindow.open(this.map, markerPlaced);
-                    });
+                    this.existingFountainMarkers.push(markerPlaced);
                 }
+
+                this.addMarkersClickListener();
             }
         }
     
