@@ -93,7 +93,7 @@ var positionProvisoire = [];
                 }
                 this.isDisplay = true; // Affiche la notification
                 markerEnable = false; // Désactive le mode d'ajout de marker
-                mapVue.removeMarkers(); // Supprime le marker existant
+                mapVue.removeNewMarker(); // Supprime le marker existant
 
                 // Ferme la fenêtre après un certain temps (timeClosed)
                 setTimeout( function() {
