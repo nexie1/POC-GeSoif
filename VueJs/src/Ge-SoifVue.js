@@ -133,13 +133,13 @@ var positionProvisoire = [];
             //Ajout des markers
             google.maps.event.addListener(this.map, 'click', function(event) {
                 if (markerEnable == true) {
-                    mapVue.placeMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
+                    mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
         },
         methods: {
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
-                this.removeNewMarkers();
+                this.removeNewMarker();
                 if(this.newMarker === null){
                     this.newMarker = new google.maps.Marker({
                         position: location,
