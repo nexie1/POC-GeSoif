@@ -126,9 +126,25 @@ var positionProvisoire = [];
                 zoom: 12, // Définit le niveau de zoom de la map lors du chargement du site
                 mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
                 center: new google.maps.LatLng(46.2, 6.1667), // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
+                // Affichage des boutons zoom/dézoom au centre à gauche et les boutons Plan/Satellite en haut à gauche
+                mapTypeControl: true,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.LEFT_TOP
+                },
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: google.maps.ControlPosition.LEFT_CENTER
+                },
+                scaleControl: true,
+                streetViewControl: true,
+                streetViewControlOptions: {
+                    position: google.maps.ControlPosition.LEFT_CENTER
+                },
             };
             this.map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
             this.markerFountainPlaced();
+            this.currentPosition();
 
             //Ajout des markers
             google.maps.event.addListener(this.map, 'click', function(event) {
@@ -189,6 +205,14 @@ var positionProvisoire = [];
                 }
 
                 this.addMarkersClickListener();
+            },
+            currentPosition: function(){
+                var currentPosMarker = new google.maps.Marker({
+                        position: {lat: 46.194389, lng: 6.124921},
+                        map: this.map,
+                        icon: 'img/currentPositionMarker.png'
+                    });
+                    this.existingFountainMarkers.push(currentPosMarker);
             }
         }
     
