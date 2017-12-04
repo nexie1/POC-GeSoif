@@ -55,7 +55,7 @@ if (isset($_REQUEST['latlng'])) {
             </div>
             <div class="row">
                 <div id="divBtnLocation"  class="col-xs-2">
-                    <button class="littleImg StyleBtn" v-on:click="location" type="button"><img class="stylePhoto" id="actualPos" src="img/Ge-Soif-Glyphicons/LocationON.png" alt="image location"></button>
+                    <button class="littleImg StyleBtn" v-on:click="location"><img class="stylePhoto" id="actualPos" :src="imgLocation" alt="image location"></button>
                 </div>
                 <div  class="col-xs-6">
                     <input type="text" class="form-control" name="address" id="address" placeholder="">

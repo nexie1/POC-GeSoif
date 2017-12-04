@@ -7,6 +7,7 @@ var positionProvisoire = [];
 
 
 
+
 /******************************************************
 ************** Affichage Slide + Pop-up ****************
 *******************************************************/
@@ -15,7 +16,8 @@ var positionProvisoire = [];
     var slideAddFountain = new Vue({
         el: '.slideAddFountain',
         data: {
-            isDisplayed: false //Se cache au chargement de la page
+            isDisplayed: false, //Se cache au chargement de la page
+            imgLocation: 'img/Ge-Soif-Glyphicons/LocationON.png'
         },
         methods: {
             // Valide et envoie dans la BD TODO
@@ -41,6 +43,7 @@ var positionProvisoire = [];
 
             // Localise la personne (si possible) TODO
             location: function () {
+                this.imgLocation = 'img/Ge-Soif-Glyphicons/LocationON.png';
                 // Mettre fonction Localisation
             }
         }
@@ -123,9 +126,8 @@ var positionProvisoire = [];
         mounted: function() {
             var myOptions = {
                 minZoom: 4, // Définit le niveau de zoom minimum de la map
-                zoom: 12, // Définit le niveau de zoom de la map lors du chargement du site
+                zoom: 15, // Définit le niveau de zoom de la map lors du chargement du site
                 mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
-                center: new google.maps.LatLng(46.2, 6.1667), // Définit les coordonnées de l'endroit au dessus duquel la map va s'afficher au chargement (Genève)
                 // Affichage des boutons zoom/dézoom au centre à gauche et les boutons Plan/Satellite en haut à gauche
                 mapTypeControl: true,
                 mapTypeControlOptions: {
@@ -155,8 +157,10 @@ var positionProvisoire = [];
         },
         methods: {
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
+            slideAddFountain.imgLocation = 'img/Ge-Soif-Glyphicons/LocationOFF.png';
                 this.removeNewMarker();
                 if(this.newMarker === null){
+                    // Ne peux pas être modifié car il va de pairs avec la fonction removeNewMarker()
                     this.newMarker = new google.maps.Marker({
                         position: location,
                         map: this.map,
@@ -164,7 +168,7 @@ var positionProvisoire = [];
                     });
                 }
             },
-            removeNewMarker: function() { // Fonction qui supprime ke marker précédent
+            removeNewMarker: function() { // Fonction qui supprime le marker précédent
                 if(this.newMarker !== null) {
                     this.newMarker.setMap(null);
                     this.newMarker = null;
@@ -207,13 +211,39 @@ var positionProvisoire = [];
                 this.addMarkersClickListener();
             },
             currentPosition: function(){
+            if (navigator.geolocation)
+            {
+               //handleUserMessages(messages.LOADING);
+               navigator.geolocation.getCurrentPosition(function (position)
+               {
+                 var currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                 mapVue.createMarker(currentPosition, "./img/currentPositionMarker.png");
+                 mapVue.map.setOptions(
+                        {center:currentPosition}
+                    ); 
+                },
+                function (err)
+                {
+                   //handleUserMessages(messages.GEOINFO);
+                 //var defaultPosition = {46.208651, 6.149596};
+                 mapVue.createMarker(46.208651, 6.149596, "./img/currentPositionMarker.png");
+            
+                },
+                {timeout: 10000}
+            );
+        }
+
+
+                
+            },
+            createMarker: function(markerPosition, markerImageUrl){
                 var currentPosMarker = new google.maps.Marker({
-                        position: {lat: 46.194389, lng: 6.124921},
-                        map: this.map,
-                        icon: 'img/currentPositionMarker.png'
+                        position: markerPosition,
+                        map: mapVue.map,
+                        icon: markerImageUrl
                     });
-                    this.existingFountainMarkers.push(currentPosMarker);
             }
+            
         }
     
     });
