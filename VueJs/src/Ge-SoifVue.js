@@ -44,6 +44,9 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             // Localise la personne (si possible) TODO
             location: function () {
                 mapVue.placeNewMarker(mapVue.currentPos);
+                mapVue.map.setOptions(
+                       {center:mapVue.currentPos}
+                );
                 this.imgLocation = 'img/Ge-Soif-Glyphicons/LocationON.png';
                 // Mettre fonction Localisation
             }
