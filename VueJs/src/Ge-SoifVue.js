@@ -43,6 +43,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
 
             // Localise la personne (si possible) TODO
             location: function () {
+                mapVue.placeNewMarker(mapVue.currentPos);
                 this.imgLocation = 'img/Ge-Soif-Glyphicons/LocationON.png';
                 // Mettre fonction Localisation
             }
@@ -57,6 +58,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
         },
         methods: {
             show: function () {
+                mapVue.placeNewMarker(mapVue.currentPos);
                 this.isDisplayed = false; //Cache le bouton d'ajout de fontaine
                 slideAddFountain.isDisplayed = true; //Affiche le div d'ajout de fontaine
                 markerEnable = true; // Active le mode ajout marker
@@ -107,7 +109,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             }
         }
     });
-    
+
 
 
 /******************************************************
@@ -119,8 +121,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
         data: {  
             map:null,
             newMarker:null,
-            existingFountainMarkers:[], // Tableau ou sont stockées les coordonnées des markers
-            currentPos:null
+            currentPos:null,
+            existingFountainMarkers:[] // Tableau ou sont stockées les coordonnées des markers
         },
         watch:{
             currentPos:function() {
@@ -157,6 +159,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             //Ajout des markers
             google.maps.event.addListener(this.map, 'click', function(event) {
                 if (markerEnable == true) {
+                    slideAddFountain.imgLocation = 'img/Ge-Soif-Glyphicons/LocationOFF.png';
+                    mapVue.placeNewMarker(mapVue.currentPos); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                     mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
@@ -164,7 +168,6 @@ var positionProvisoire = []; //Tableaux de markers provisoires
         },
         methods: {
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
-            slideAddFountain.imgLocation = 'img/Ge-Soif-Glyphicons/LocationOFF.png';
                 this.removeNewMarker();
                 if(this.newMarker === null){
                     // Ne peux pas être modifié car il va de pairs avec la fonction removeNewMarker()
@@ -201,12 +204,11 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     {
                         navigator.geolocation.getCurrentPosition(function (position)
                         {
-                           
-                               mapVue.currentPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                            mapVue.currentPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                         },
                         function (err)
                         {
-                              mapVue.currentPos = new google.maps.LatLng(46.208651, 6.149596);
+                            mapVue.currentPos = new google.maps.LatLng(46.208651, 6.149596);
                         },
                         {timeout: 10000}
                     );
@@ -233,7 +235,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                 this.addMarkersClickListener();
             },
             addCurrentPositionMarker:function(){  // Place le marker de notre position: 
-                this.createMarker( mapVue.currentPos, "./img/currentPositionMarker.png");
+                this.createMarker(mapVue.currentPos, "./img/currentPositionMarker.png");
                 this.map.setOptions(
                        {center:mapVue.currentPos}
                 );
