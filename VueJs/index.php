@@ -77,7 +77,7 @@ if (isset($_REQUEST['latlng'])) {
                 <div class="col-xs-6">
                 </div>
                 <div class="btn-group col-xs-6">
-                    <button v-on:click="valid" type="submit" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/ValidBtn.png" id='btnAddFountain' alt="Ajouter la fontaine"/>
+                    <button v-on:click="valid" type="submit" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/ValidBtn.png" id='btnAddFountain' alt="Ajouter la fontaine"/></button>
                         <button v-on:click="cancel" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/CancelBtn.png" id='btnCancelAddFountain' alt="Annuler"></button>
                 </div>
             </div>

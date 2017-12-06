@@ -3,7 +3,7 @@ $(document).ready(function () {
 
 var timeClosed = 3000; // Temps avant disparition pop-up
 var markerEnable = false; // Active le mode d'ajout de marker
-var positionProvisoire = [];
+var positionProvisoire = []; //Tableaux de markers provisoires
 
 
 
@@ -82,13 +82,12 @@ var positionProvisoire = [];
         },
         methods: {
             closed: function () {
-                // Cache la fenêtre de notification
-                this.isDisplay = false;
+                this.isDisplay = false; // Cache la fenêtre de notification
             },
             show: function(from) {
                 if(from == "valide") {
                     this.isSuccess = "true"; // Met la classe "alert-success"
-                    this.message = 'Merci ! Votre fontaine a bien été ajoutée. Un administrateur doit la valider pour quelle soit visible.'; // Ajoute le contenu à la notification
+                    this.message = 'Merci ! Votre fontaine a bien été ajoutée. Un administrateur doit la valider pour qu\'elle soit visible.'; // Ajoute le contenu à la notification
                 }
                 else if(from == "cancele") {
                     this.isDanger = "true";
@@ -108,7 +107,7 @@ var positionProvisoire = [];
             }
         }
     });
-
+    
 
 
 /******************************************************
@@ -119,15 +118,21 @@ var positionProvisoire = [];
         el: '#vue-map',
         data: {  
             map:null,
+            newMarker:null,
             existingFountainMarkers:[], // Tableau ou sont stockées les coordonnées des markers
-            newMarker:null
+            currentPos:null
         },
-
+        watch:{
+            currentPos:function() {
+                this.addCurrentPositionMarker(); // Place le marker de notre position
+            }
+        },
         mounted: function() {
             var myOptions = {
                 minZoom: 4, // Définit le niveau de zoom minimum de la map
                 zoom: 15, // Définit le niveau de zoom de la map lors du chargement du site
                 mapTypeId: google.maps.MapTypeId.ROADMAP, // Définit le type de map
+                center : new google.maps.LatLng(46.208651, 6.149596),
                 // Affichage des boutons zoom/dézoom au centre à gauche et les boutons Plan/Satellite en haut à gauche
                 mapTypeControl: true,
                 mapTypeControlOptions: {
@@ -142,11 +147,12 @@ var positionProvisoire = [];
                 streetViewControl: true,
                 streetViewControlOptions: {
                     position: google.maps.ControlPosition.LEFT_CENTER
-                },
+                }
             };
             this.map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
-            this.markerFountainPlaced();
-            this.currentPosition();
+            this.markerFountainPlaced(); // Place les fontaines sur la carte
+          
+            this.getMyPosition();
 
             //Ajout des markers
             google.maps.event.addListener(this.map, 'click', function(event) {
@@ -154,6 +160,7 @@ var positionProvisoire = [];
                     mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
+         
         },
         methods: {
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
@@ -189,8 +196,23 @@ var positionProvisoire = [];
                     });
                     });
             },
+            getMyPosition: function() {
+                if (navigator.geolocation)
+                    {
+                        navigator.geolocation.getCurrentPosition(function (position)
+                        {
+                           
+                               mapVue.currentPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                        },
+                        function (err)
+                        {
+                              mapVue.currentPos = new google.maps.LatLng(46.208651, 6.149596);
+                        },
+                        {timeout: 10000}
+                    );
+                }
+            },
             markerFountainPlaced: function(){ // Fonction qui affiche 7 markers sur la map
-               
                 positionProvisoire[0] = {lat: 46.184, lng: 6.148};
                 positionProvisoire[1] = {lat: 46.193, lng: 6.107};
                 positionProvisoire[2] = {lat: 46.205, lng: 6.157};
@@ -210,31 +232,11 @@ var positionProvisoire = [];
 
                 this.addMarkersClickListener();
             },
-            currentPosition: function(){
-            if (navigator.geolocation)
-            {
-               //handleUserMessages(messages.LOADING);
-               navigator.geolocation.getCurrentPosition(function (position)
-               {
-                 var currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                 mapVue.createMarker(currentPosition, "./img/currentPositionMarker.png");
-                 mapVue.map.setOptions(
-                        {center:currentPosition}
-                    ); 
-                },
-                function (err)
-                {
-                   //handleUserMessages(messages.GEOINFO);
-                 //var defaultPosition = {46.208651, 6.149596};
-                 mapVue.createMarker(46.208651, 6.149596, "./img/currentPositionMarker.png");
-            
-                },
-                {timeout: 10000}
-            );
-        }
-
-
-                
+            addCurrentPositionMarker:function(){  // Place le marker de notre position: 
+                this.createMarker( mapVue.currentPos, "./img/currentPositionMarker.png");
+                this.map.setOptions(
+                       {center:mapVue.currentPos}
+                );
             },
             createMarker: function(markerPosition, markerImageUrl){
                 var currentPosMarker = new google.maps.Marker({
