@@ -58,7 +58,7 @@ if (isset($_REQUEST['latlng'])) {
                     <button class="littleImg StyleBtn" v-on:click="location"><img class="stylePhoto" id="actualPos" :src="imgLocation" alt="image location"></button>
                 </div>
                 <div  class="col-xs-6">
-                    <input type="text" class="form-control" name="address" id="address" placeholder="">
+                    <label type="text" class="form-control" name="address" id="address">{{address}}</label> 
                 </div>
                 <div class="col-xs-3">                        
                     <div class="image-upload">

@@ -17,7 +17,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
         el: '.slideAddFountain',
         data: {
             isDisplayed: false, //Se cache au chargement de la page
-            imgLocation: 'img/Ge-Soif-Glyphicons/LocationON.png'
+            imgLocation: 'img/Ge-Soif-Glyphicons/LocationON.png',
+            address: ""
         },
         methods: {
             // Valide et envoie dans la BD TODO
@@ -163,7 +164,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             google.maps.event.addListener(this.map, 'click', function(event) {
                 if (markerEnable == true) {
                     slideAddFountain.imgLocation = 'img/Ge-Soif-Glyphicons/LocationOFF.png';
-                    mapVue.placeNewMarker(mapVue.currentPos); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
+                    //mapVue.placeNewMarker(mapVue.currentPos); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                     mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
@@ -179,13 +180,23 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                         map: this.map,
                         icon: 'img/newFountainIcon.png'
                     });
+
+                    mapVue.getAddress(location);
                 }
             },
+            
             removeNewMarker: function() { // Fonction qui supprime le marker précédent
                 if(this.newMarker !== null) {
                     this.newMarker.setMap(null);
                     this.newMarker = null;
                     }
+            },
+            getAddress: function(location){
+                var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({'latLng': location}, function(result, status){
+                    var res2 = result;
+                    slideAddFountain.address = res2[0].formatted_address; 
+                });
             },
             addMarkersClickListener: function(clickedMarker, infoWindow) {
                     var infoWindow = new google.maps.InfoWindow;
@@ -200,7 +211,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                         }
                         );
                     });
-                    });
+                });
             },
             getMyPosition: function() {
                 if (navigator.geolocation)
@@ -247,7 +258,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                 var currentPosMarker = new google.maps.Marker({
                         position: markerPosition,
                         map: mapVue.map,
-                        icon: markerImageUrl
+                        icon: markerImageUrl,
+                        zIndex: 100 
                     });
             }
             
