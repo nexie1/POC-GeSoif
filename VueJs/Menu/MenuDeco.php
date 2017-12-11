@@ -7,8 +7,8 @@
 
             <a  v-bind:href="link"> <img class="littleImg" id="iconNavbar" src="./img/faviconGlyphicon.png" alt="logo" /></a>
             <a class="navbar-brand"  v-bind:href="link" style="color : white;">{{message}}</a>
+        <button v-on:click="centerButton" type="button" class="btn btn-primary btn-sm">Centrer</button>
         </div>
-
         <div id="navInfo" class="navbar-collapse collapse" style="float: right;">
             <ul>
             <li class="nav navbar-form navbar-left" aria-label="Left Align" ><a href="./about.php" style="color : white"><span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span> A propos</a></li></ul>
@@ -25,6 +25,6 @@
     <button v-on:click ="closed" class="close">×</button><span>Votre fontaine n'a pas été ajoutée.</span>
 </div-->
 
-<div id="alert_template" class="alert alert_popup" v-bind:class="{ 'alert-danger': isDanger, 'alert-success': isSuccess}" v-on:click ="closed" v-if="isDisplay">
+<div id="alert_template" class="alert alert_popup" v-bind:class="{ 'alert-danger': isDanger, 'alert-success': isSuccess, 'alert-primary': isPrimary}" v-on:click ="closed" v-if="isDisplay">
     <button class="close">×</button><span>{{message}}</span>
 </div>

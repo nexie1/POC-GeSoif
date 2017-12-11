@@ -85,6 +85,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             // Choix de la classe pour la notification
             isSuccess: false,
             isDanger: false,
+            isPrimary: false,
+
         },
         methods: {
             closed: function () {
@@ -99,6 +101,18 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     this.isDanger = "true";
                     this.message = 'Votre fontaine n\'a pas été ajoutée.';
                 }
+                else if(from == "inLocation") {
+                    this.isPrimary = "true";
+                    this.message = 'Nous cherchons à vous localiser, veuillez patienter.';
+                }
+                else if(from == "located") {
+                    this.isSuccess = "true";
+                    this.message = 'Vous avez bien été localisé !';
+                }
+                else if(from == "notLocated") {
+                    this.isDanger = "true";
+                    this.message = 'Vous n\'avez pas été localisé.';
+                }
                 this.isDisplay = true; // Affiche la notification
                 markerEnable = false; // Désactive le mode d'ajout de marker
                 mapVue.removeNewMarker(); // Supprime le marker existant
@@ -109,6 +123,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     // Désactive la class de la notif
                     alert_popup.isSuccess = false; 
                     alert_popup.isDanger = false;
+                    alert_popup.isPrimary = false;
                 }, timeClosed);
             }
         }
@@ -157,7 +172,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             };
             this.map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
             this.markerFountainPlaced(); // Place les fontaines sur la carte
-          
+            
             this.getMyPosition();
 
             //Ajout des markers
@@ -168,7 +183,6 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
-         
         },
         methods: {
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
@@ -194,8 +208,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             getAddress: function(location){
                 var geocoder = new google.maps.Geocoder();
                     geocoder.geocode({'latLng': location}, function(result, status){
-                    var res2 = result;
-                    slideAddFountain.address = res2[0].formatted_address; 
+                    var res = result;
+                    slideAddFountain.address = res[0].formatted_address; 
                 });
             },
             addMarkersClickListener: function(clickedMarker, infoWindow) {
@@ -216,12 +230,15 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             getMyPosition: function() {
                 if (navigator.geolocation)
                     {
+                        //alert_popup.show("inLocated");
                         navigator.geolocation.getCurrentPosition(function (position)
                         {
+                            alert_popup.show("located");
                             mapVue.currentPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                         },
                         function (err)
                         {
+                            alert_popup.show("notLocated");
                             mapVue.currentPos = new google.maps.LatLng(46.208651, 6.149596);
                         },
                         {timeout: 10000}
@@ -261,10 +278,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                         icon: markerImageUrl,
                         zIndex: 100 
                     });
-            }
-            
+                }
         }
-    
     });
 
 
@@ -273,11 +288,17 @@ var positionProvisoire = []; //Tableaux de markers provisoires
 ******************** Modif HTML ***********************
 *******************************************************/
 
-    var Lien = new Vue({
+    var navBar = new Vue({
         el: '#index',
         data: {
             message: "GE-Soif",
             link: 'index.php'
+        },
+        methods:{
+            centerButton: function(){
+                mapVue.map.setCenter(mapVue.currentPos);
+            },
+
         }
     });   
 });
