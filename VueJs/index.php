@@ -117,7 +117,7 @@ if (isset($_REQUEST['latlng'])) {
                 <img v-on:click="imgProvisoire" class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
             </div>
         </div>
-        <p name="address" id="address">{{address}}</p> 
+        <p name="address" id="address">{{address}}</p>
         <div class="traitHorizontal"></div>
     </div>
     

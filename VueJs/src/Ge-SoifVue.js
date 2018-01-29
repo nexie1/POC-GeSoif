@@ -62,7 +62,9 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             address:"",
         },
         methods: {
-            
+            backBtn: function() {
+                this.isDisplayed = false;
+            }
         }
     });
 
