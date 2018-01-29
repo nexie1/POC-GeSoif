@@ -22,7 +22,7 @@ if (isset($_REQUEST['latlng'])) {
         <link href="MyGe-SoifCss.css" rel="stylesheet" type="text/css"/>
         <link rel="icon" href="./img/devices_icon/GeSoif.ico">
         <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>-->
-        <title>Test vue.js</title>
+        <title>Ge-Soif!</title>
 
         <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCx44Y7o1u2yQR0H0_CRLS0HT81i1UEtsY&libraries=places"></script>
                 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=fr"></script>
@@ -30,7 +30,7 @@ if (isset($_REQUEST['latlng'])) {
 
 
     </head>
-    <body>    
+    <body class="scroll">    
     <?php
     include("./Menu/MenuDeco.php");
     ?>
@@ -87,7 +87,9 @@ if (isset($_REQUEST['latlng'])) {
 
 
     <div id="vue-map">
+        <button v-on:click="centerButton" type="button" class="btn btn-primary btn-sm centerBtn">Centrer</button>
   <div id="map_canvas1"></div>
+
   <!--div v-on:click="markerMap" id="map_canvas1"></div>
     <input type="text" id="lngFld">
   <input type="text" id="latFld"-->
@@ -103,6 +105,21 @@ if (isset($_REQUEST['latlng'])) {
     </div>-->
     <div id="map"></div>
     
+        <div v-if="isDisplayed" class="slideInfo">
+            <div>
+            <div id="divBtnBack"  class="col-xs-2">
+                <img v-on:click="backBtn" class="stylePhoto backBtn" id="BackBtn" alt="Fermeture de la slide" src="img/Ge-Soif-Glyphicons/BackBtn.png">
+            </div>
+            <div id="divDirections"  class="col-xs-2">
+                <img v-on:click="directions" class="stylePhoto directions" id="Directions" alt="Bouton d'itinéraire" src="img/directions.png">
+            </div>
+            <div id="imgProvisoire"  class="col-xs-2">
+                <img v-on:click="imgProvisoire" class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
+            </div>
+        </div>
+        <p name="address" id="address">{{address}}</p> 
+        <div class="traitHorizontal"></div>
+    </div>
     
     
     <script src="bs/js/bootstrap.min.js" type="text/javascript"></script>

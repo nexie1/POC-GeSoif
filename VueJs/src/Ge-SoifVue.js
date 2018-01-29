@@ -54,6 +54,18 @@ var positionProvisoire = []; //Tableaux de markers provisoires
         }
     });
 
+    //Slide permettant d'afficher toutes les infos sur la fontaine sélectionnée
+    var slideInfo = new Vue({
+        el: '.slideInfo',
+        data: {
+            isDisplayed: false, //Se cache au chargement de la page
+            address:"",
+        },
+        methods: {
+            
+        }
+    });
+
     //Lors du clic sur le "+" affiche le slide "slideAddFountain"
     var slideAddFountainBtn = new Vue({
         el: '.slideAddNewBtn',
@@ -66,6 +78,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                 this.isDisplayed = false; //Cache le bouton d'ajout de fontaine
                 slideAddFountain.isDisplayed = true; //Affiche le div d'ajout de fontaine
                 markerEnable = true; // Active le mode ajout marker
+                alert_popup.show("infoAdd");
             }
         }
     });
@@ -85,7 +98,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             // Choix de la classe pour la notification
             isSuccess: false,
             isDanger: false,
-            isPrimary: false,
+            isInfo: false,
 
         },
         methods: {
@@ -102,7 +115,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     this.message = 'Votre fontaine n\'a pas été ajoutée.';
                 }
                 else if(from == "inLocation") {
-                    this.isPrimary = "true";
+                    this.isInfo = "true";
                     this.message = 'Nous cherchons à vous localiser, veuillez patienter.';
                 }
                 else if(from == "located") {
@@ -113,6 +126,11 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     this.isDanger = "true";
                     this.message = 'Vous n\'avez pas été localisé.';
                 }
+                else if(from == "infoAdd") {
+                    this.isInfo = "true";
+                    this.message = 'Pour ajuster la position de la fontaine vous pouvez cliquer sur la carte ou taper une adresse.';
+                }
+                
                 this.isDisplay = true; // Affiche la notification
                 markerEnable = false; // Désactive le mode d'ajout de marker
                 mapVue.removeNewMarker(); // Supprime le marker existant
@@ -123,7 +141,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                     // Désactive la class de la notif
                     alert_popup.isSuccess = false; 
                     alert_popup.isDanger = false;
-                    alert_popup.isPrimary = false;
+                    alert_popup.isInfo = false;
                 }, timeClosed);
             }
         }
@@ -185,6 +203,12 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             });
         },
         methods: {
+            centerButton: function(){ // Fonction qui recentre sur notre position lors du clic sur le bouton "Centrer"
+                mapVue.map.setCenter(mapVue.currentPos);
+                this.map.setOptions(
+                       {zoom: 15}
+                );
+            },
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
                 this.removeNewMarker();
                 if(this.newMarker === null){
@@ -220,8 +244,10 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                         geocoder.geocode({'latLng': value.position}, function(result, status){
                         var res = result;
                         value.addListener("click", function(){
-                            infoWindow.setContent(res[0].formatted_address);
-                            infoWindow.open(this.map, value);    
+                            /*infoWindow.setContent(res[0].formatted_address);
+                            infoWindow.open(this.map, value);    */
+                            slideInfo.isDisplayed = true;
+                            slideInfo.address = res[0].formatted_address;
                         }
                         );
                     });
@@ -295,9 +321,9 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             link: 'index.php'
         },
         methods:{
-            centerButton: function(){
+            /*centerButton: function(){
                 mapVue.map.setCenter(mapVue.currentPos);
-            },
+            },*/
 
         }
     });   

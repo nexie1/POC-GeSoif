@@ -57,6 +57,11 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
 -->
 <html lang="en">
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src="src/vue.js" type="text/javascript"></script>
+        <script src="src/Ge-SoifVue.js" type="text/javascript"></script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,9 +72,9 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
         ?>
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>Ge-Soif! Les fontaines d'eau potable à portée de main!</title>
+        <title>Ge-Soif! | A propos</title>
         <!-- Bootstrap -->
-        <link href="bs/css/bootstrap.min.css" rel="stylesheet">
+        <link href="MyGe-SoifCss.css" rel="stylesheet" type="text/css"/>
         <!--Js maps-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
@@ -85,7 +90,7 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
             }
         </style>
     </head>
-    <body>
+    <body class="scrollActive">
         <?php
         include("./Menu/MenuDeco.php");
         ?>
