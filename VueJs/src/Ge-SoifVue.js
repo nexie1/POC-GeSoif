@@ -46,7 +46,8 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             location: function () {
                 mapVue.placeNewMarker(mapVue.currentPos);
                 mapVue.map.setOptions(
-                       {center:mapVue.currentPos}
+                       {center:mapVue.currentPos,
+                        zoom:15}
                 );
                 this.imgLocation = 'img/Ge-Soif-Glyphicons/LocationON.png';
                 // Mettre fonction Localisation
@@ -59,7 +60,7 @@ var positionProvisoire = []; //Tableaux de markers provisoires
         el: '.slideInfo',
         data: {
             isDisplayed: false, //Se cache au chargement de la page
-            address:"",
+            address:""
         },
         methods: {
             backBtn: function() {
@@ -80,7 +81,6 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                 this.isDisplayed = false; //Cache le bouton d'ajout de fontaine
                 slideAddFountain.isDisplayed = true; //Affiche le div d'ajout de fontaine
                 markerEnable = true; // Active le mode ajout marker
-                alert_popup.show("infoAdd");
             }
         }
     });
@@ -115,10 +115,6 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                 else if(from == "cancele") {
                     this.isDanger = "true";
                     this.message = 'Votre fontaine n\'a pas été ajoutée.';
-                }
-                else if(from == "inLocation") {
-                    this.isInfo = "true";
-                    this.message = 'Nous cherchons à vous localiser, veuillez patienter.';
                 }
                 else if(from == "located") {
                     this.isSuccess = "true";
@@ -205,12 +201,6 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             });
         },
         methods: {
-            centerButton: function(){ // Fonction qui recentre sur notre position lors du clic sur le bouton "Centrer"
-                mapVue.map.setCenter(mapVue.currentPos);
-                this.map.setOptions(
-                       {zoom: 15}
-                );
-            },
             placeNewMarker: function(location) { // Fonction qui place un marker vert losqu'on clique sur la map
                 this.removeNewMarker();
                 if(this.newMarker === null){
@@ -239,18 +229,16 @@ var positionProvisoire = []; //Tableaux de markers provisoires
                 });
             },
             addMarkersClickListener: function(clickedMarker, infoWindow) {
-                    var infoWindow = new google.maps.InfoWindow;
-
                     $.each(this.existingFountainMarkers, function(index, value){
                         var geocoder = new google.maps.Geocoder();
                         geocoder.geocode({'latLng': value.position}, function(result, status){
-                        var res = result;
-                        value.addListener("click", function(){
-                            /*infoWindow.setContent(res[0].formatted_address);
-                            infoWindow.open(this.map, value);    */
-                            slideInfo.isDisplayed = true;
-                            slideInfo.address = res[0].formatted_address;
-                        }
+                            var res = result;
+                            value.addListener("click", function(){
+                                /*infoWindow.setContent(res[0].formatted_address);
+                                infoWindow.open(this.map, value);    */
+                                slideInfo.isDisplayed = true;
+                                slideInfo.address = res[0].formatted_address;
+                            }
                         );
                     });
                 });
@@ -323,9 +311,12 @@ var positionProvisoire = []; //Tableaux de markers provisoires
             link: 'index.php'
         },
         methods:{
-            /*centerButton: function(){
+            centerButton: function(){ // Fonction qui recentre sur notre position lors du clic sur le bouton "Centrer"
                 mapVue.map.setCenter(mapVue.currentPos);
-            },*/
+                this.map.setOptions(
+                       {zoom: 15}
+                );
+            },
 
         }
     });   

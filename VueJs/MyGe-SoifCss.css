@@ -3,17 +3,33 @@ body {
     list-style-type:none;
     width: 100%;  
     height: 100%;
+    
 }
-
-.scroll {
+.scroll{  
     overflow-x: hidden;
-    overflow-y: hidden; 
+    overflow-y: hidden;  
+}
+.scrollActive{
+    overflow-x: scroll;
+    overflow-y: scroll;  
+    
 }
 
-.scrollActive {
-    overflow-x: scroll;
-    overflow-y: scroll;
+#InstIcoone{   
+    margin-top: 10px;
 }
+.Imgsz{
+    width: 32px;
+    height: 32px;
+}
+
+#FbIcoone{   
+    margin-top: 10px;
+}
+#YtbIcoone{   
+    margin-top: 10px;
+}
+
 
 .littleImg {
     width: 35px;
@@ -109,12 +125,11 @@ button {
     padding: 5px;
     text-align: center;
     line-height: 15px;
-    margin-left: 55%;
-    width: 43%;
+    margin-left: 30%;
+    width: 35%;
     top: 5px;
 }
 
-/*slide*/
 .slideInfo{
     text-align: center;
     margin: auto;
@@ -128,7 +143,7 @@ button {
     border: solid 3px #0c83e2;
     border-radius: 0 20px 20px 0;
     left: 0px;
-}
+}   
 
 .traitHorizontal{
     border-top: 2px solid #000; 
@@ -136,7 +151,7 @@ button {
     margin-top: 40px;
 }
 
-#address{
+#addressSlideInfo{
     margin-top: 60px;
 }
 

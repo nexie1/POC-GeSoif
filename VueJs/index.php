@@ -58,7 +58,7 @@ if (isset($_REQUEST['latlng'])) {
                     <button class="littleImg StyleBtn" v-on:click="location"><img class="stylePhoto" id="actualPos" :src="imgLocation" alt="image location"></button>
                 </div>
                 <div  class="col-xs-6">
-                    <label type="text" class="form-control" name="address" id="address">{{address}}</label> 
+                    <label type="text" class="form-control" name="addressSlideInfo" id="address">{{address}}</label> 
                 </div>
                 <div class="col-xs-3">                        
                     <div class="image-upload">
@@ -88,7 +88,7 @@ if (isset($_REQUEST['latlng'])) {
 
     <div id="vue-map">
         <button v-on:click="centerButton" type="button" class="btn btn-primary btn-sm centerBtn">Centrer</button>
-  <div id="map_canvas1"></div>
+    <div id="map_canvas1"></div>
 
   <!--div v-on:click="markerMap" id="map_canvas1"></div>
     <input type="text" id="lngFld">
@@ -117,7 +117,7 @@ if (isset($_REQUEST['latlng'])) {
                 <img v-on:click="imgProvisoire" class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
             </div>
         </div>
-        <p name="address" id="address">{{address}}</p>
+        <p name="address" id="addressSlideInfo">{{address}}</p>
         <div class="traitHorizontal"></div>
     </div>
     
