@@ -80,6 +80,8 @@ $(document).ready(function () {
         data: {
             isDisplayed: false, //Se cache au chargement de la page
             address:"", // Set l'addresse à vide
+            tempsItineraire: "",
+            distanceItineraire: ""
         },
         methods: {
             backBtn: function() {
@@ -89,7 +91,39 @@ $(document).ready(function () {
             CloseBtn: function() {
                 slideInfoClosed.isDisplayed = false; // Affiche le morceau de fenêtre
                 this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
-            }
+             },
+            calcRoute: function(destinationLatLng){
+                var request = {
+                    origin: mapVue.currentPos,
+                    destination: destinationLatLng,
+                    travelMode: google.maps.TravelMode.WALKING
+                    //WALKING / DRIVING / BICYCLING / TRANSIT /
+                };
+                var directionsService = new google.maps.DirectionsService;
+                var directionsDisplay = new google.maps.DirectionsRenderer;
+                directionsService.route(request, function (result, status) {
+                    var distanceM = result.routes[0].legs[0].distance.value;
+                    var tempsS = result.routes[0].legs[0].duration.value;
+                    if (status === google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(result);
+                        // Display the distance:
+                        //TODO à améliorer
+                        if (distanceM < 1000) {
+                           distanceItineraire = ( "A pied " + distanceM + " mètres");
+                        }
+                        else {
+                           distanceItineraire = ("A pied " + parseFloat(distanceM / 1000).toFixed(2) + " kilomètres");
+                        }
+                        if (tempsS < 60) {
+                           tempsItineraire = ("A pied " + "moins d'une minute");
+                        }
+                        else {
+                           tempsItineraire = ("A pied " + parseInt(tempsS / 60) + " minutes");
+                        }
+                    }
+                }); 
+            },
+
         }
     });
 
@@ -173,7 +207,7 @@ $(document).ready(function () {
      ******************** MAP ******************************
      *******************************************************/
 
-    var mapVue = new Vue({
+var mapVue = new Vue({
         el: '#vue-map',
         data: {
             map: null,
@@ -317,8 +351,6 @@ $(document).ready(function () {
             }
         }
     });
-
-
 
     /******************************************************
      ******************** Modif HTML ***********************

@@ -126,7 +126,10 @@ if (isset($_REQUEST['latlng'])) {
             </div>
         <p name="address" id="addressSlideInfo">{{address}}</p>
             <div class="traitHorizontal"></div>
-
+        <div class="lblDirections">
+            <label class="label label-primary"> {{tempsItineraire}} </label>
+            <label class="label label-primary"> {{distanceItineraire}} </label>
+        </div>
         </div>
 
 

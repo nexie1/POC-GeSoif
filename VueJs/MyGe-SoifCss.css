@@ -205,6 +205,11 @@ button {
     position: fixed;
     z-index:15;
 }
+
+.lblDirections{
+    margin-top: 55px;
+    margin-left: 80px;
+}
 /*Code pour bien placer la search box
 
 .controls {
