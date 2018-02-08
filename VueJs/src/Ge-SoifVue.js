@@ -223,8 +223,7 @@ $(document).ready(function () {
             });
         },
         methods: {
-                this.map.setOptions( // rêgle le zoom à 15
-            placeNewMarker: function (location) { // Fonction qui place un marker vert losqu'on clique sur la map
+            placeNewMarker: function (location) { // Fonction qui place un marker vert losqu'on clique sur la map            
                 this.removeNewMarker(); // fonction qui supprime le marker précédent
                 if (this.newMarker === null) {
                     // Ne peux pas être modifié car il va de pairs avec la fonction removeNewMarker()
@@ -335,10 +334,12 @@ $(document).ready(function () {
             centerButton: function(){ // Fonction qui recentre sur notre position lors du clic sur le bouton "Centrer"
 
                 mapVue.map.setCenter(mapVue.currentPos);
-                this.map.setOptions(
+                this.map.setOptions( // rêgle le zoom à 15
                        {zoom: 15}
                 );
-    
+            }
+        }
+    });
     /*******************************************************
      ******************** Modif APROPOS ********************
      *******************************************************/
