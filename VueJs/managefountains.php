@@ -25,7 +25,13 @@ $userInfos = isset($_SESSION['user_infos']) ? $_SESSION['user_infos'] : null;
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="geSoif.css" rel="stylesheet">
+        <link rel="stylesheet" href="bs/css/bootstrap.css">
+        <link rel="stylesheet" href="MyGe-Soifcss.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src="src/vue.js" type="text/javascript"></script>
+        <script src="src/Ge-SoifVue.js" type="text/javascript"></script>
         <?php
         include("./Menu/meta.php");
         include("./templates/templateTableauFontaines.html");

@@ -3,8 +3,8 @@ body {
     list-style-type:none;
     width: 100%;  
     height: 100%;
-    
 }
+
 .scroll{  
     overflow-x: hidden;
     overflow-y: hidden;  
@@ -29,6 +29,7 @@ body {
 #YtbIcoone{   
     margin-top: 10px;
 }
+
 
 
 .littleImg {
@@ -61,7 +62,6 @@ button {
     border: 1px solid #ccc;
 }
 
-
 /*fenêtre pop-up*/
 .slideAddFountain {
     background-color : white;
@@ -71,6 +71,7 @@ button {
     width :100%;
     position : absolute;
 }
+
 .slideAddNewBtn{
     width : 50px;
     max-width : 50px;
@@ -79,6 +80,7 @@ button {
     right : 5%;
     z-index : 2;
 }
+
 .image-upload > input
 {
     display: none;
@@ -101,10 +103,12 @@ button {
 #logoFB{
     width: 15%;
 }
+
 #logoFBPc{
     width: 10%;
     margin : auto;
 }
+
 #logoFBPhone{
     width: 50%;
     margin : auto;

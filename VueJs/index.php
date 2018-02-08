@@ -5,7 +5,6 @@ if (isset($_REQUEST['latlng'])) {
     $input_cache_latlng = $_REQUEST['latlng'];
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -27,23 +26,18 @@ if (isset($_REQUEST['latlng'])) {
         <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCx44Y7o1u2yQR0H0_CRLS0HT81i1UEtsY&libraries=places"></script>
                 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=fr"></script>
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=fr"></script>-->
-
-
     </head>
     <body class="scroll">    
     <?php
     include("./Menu/MenuDeco.php");
     ?>
-
-    
-<!--<div id="demo">
+        
+    <!--<div id="demo">
     <p><i>myInstanceAddress</i> Property</p>
     <pre>{{ myInstanceAddress | json }}</pre>
             <input id="addressInput" type="text" />
         </div>-->
-
-
-
+    
     <!--Affichage du div d'ajout de fontaine-->
     <div v-if="isDisplayed" class="slideAddFountain">   
 
@@ -69,10 +63,6 @@ if (isset($_REQUEST['latlng'])) {
                     </div>                               
                 </div>
             </div>
-
-
-                <!--button><img src="img/Ge-Soif-Glyphicons/AddPhotoBtn.png" alt=""/></button-->
-
             <div class="row">
                 <div class="col-xs-6">
                 </div>
@@ -104,6 +94,7 @@ if (isset($_REQUEST['latlng'])) {
         </div>
     </div>-->
     <div id="map"></div>
+    
     
         <div v-if="isDisplayed" class="slideInfo">
             <div>
