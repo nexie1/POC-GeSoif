@@ -79,7 +79,7 @@ if (isset($_REQUEST['latlng'])) {
 
         <div id="vue-map">
             <button v-on:click="centerButton" type="button" class="btn btn-primary btn-sm centerBtn">Centrer</button>
-            <div id="map_canvas1"></div>
+        <div id="map_canvas1"></div>
 
                         <!--div v-on:click="markerMap" id="map_canvas1"></div>
               <input type="text" id="lngFld">

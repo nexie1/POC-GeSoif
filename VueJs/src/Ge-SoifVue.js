@@ -270,6 +270,12 @@ var mapVue = new Vue({
                     mapVue.getAddress(location); // Transforme les positions en adresse (46.11231, 32.4453 = chemin du bac ...)
                 }
             },
+            centerButton: function(){ // Fonction qui recentre sur notre position lors du clic sur le bouton "Centrer"
+                mapVue.map.setCenter(mapVue.currentPos);
+                this.map.setOptions( // règle le zoom à 15
+                       {zoom: 15}
+                );
+            },
 
             removeNewMarker: function () { // Fonction qui supprime le marker précédent
                 if (this.newMarker !== null) {
@@ -362,15 +368,6 @@ var mapVue = new Vue({
             message: "GE-Soif",
             link: 'index.php'
         },
-        methods: {
-            centerButton: function(){ // Fonction qui recentre sur notre position lors du clic sur le bouton "Centrer"
-
-                mapVue.map.setCenter(mapVue.currentPos);
-                this.map.setOptions( // rêgle le zoom à 15
-                       {zoom: 15}
-                );
-            }
-        }
     });
     /*******************************************************
      ******************** Modif APROPOS ********************
