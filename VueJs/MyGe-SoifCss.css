@@ -149,6 +149,18 @@ button {
     left: 0px;
 }   
 
+.slideInfoClosed{
+    background: #0c83e2;
+    border: solid 3px #0c83e2;
+    border-radius: 0 20px 20px 0;
+    position: fixed;
+    z-index: 15;
+    width: 3%;
+    height: 245px;
+    left: 0px;
+    bottom: 15px;
+}
+
 .traitHorizontal{
     border-top: 2px solid #000; 
     width : 280px; 
@@ -160,15 +172,20 @@ button {
 }
 
 .directions{
-    margin-left: -10px;
+    margin-left: -120px;
 }
 
 .backBtn{
-    margin-left: 220px;
+    margin-left: 180px;
+}
+
+.backBtn2{
+    margin-top: 100px;
+    margin-left: 0.2%;
 }
 
 .imgProvisoire{
-    margin-left: -180px;
+    margin-left: -300px;
 }
 
 .paddingslide{

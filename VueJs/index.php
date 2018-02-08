@@ -28,20 +28,21 @@ if (isset($_REQUEST['latlng'])) {
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=fr"></script>-->
     </head>
     <body class="scroll">    
-    <?php
-    include("./Menu/MenuDeco.php");
-    ?>
+        <?php
+        include("./Menu/MenuDeco.php");
+        ?>
         
-    <!--<div id="demo">
-    <p><i>myInstanceAddress</i> Property</p>
-    <pre>{{ myInstanceAddress | json }}</pre>
-            <input id="addressInput" type="text" />
-        </div>-->
     
-    <!--Affichage du div d'ajout de fontaine-->
-    <div v-if="isDisplayed" class="slideAddFountain">   
+<!--<div id="demo">
+            <p><i>myInstanceAddress</i> Property</p>
+            <pre>{{ myInstanceAddress | json }}</pre>
+                    <input id="addressInput" type="text" />
+                </div>-->
+    
+        <!--Affichage du div d'ajout de fontaine-->
+        <div v-if="isDisplayed" class="slideAddFountain">   
 
-        <!-- Mettre tout les trucs pour add une foutaine -->
+            <!-- Mettre tout les trucs pour add une foutaine -->
             <div class="row" >
                 <div  class="col-xs-offset-2 col-xs-10">                        
                     <label class="label label-info"> Adresse choisie : </label>      
@@ -68,57 +69,74 @@ if (isset($_REQUEST['latlng'])) {
                 </div>
                 <div class="btn-group col-xs-6">
                     <button v-on:click="valid" type="submit" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/ValidBtn.png" id='btnAddFountain' alt="Ajouter la fontaine"/></button>
-                        <button v-on:click="cancel" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/CancelBtn.png" id='btnCancelAddFountain' alt="Annuler"></button>
+                    <button v-on:click="cancel" class="btn StyleBtn"><img class="stylePhoto" src="img/Ge-Soif-Glyphicons/CancelBtn.png" id='btnCancelAddFountain' alt="Annuler"></button>
                 </div>
             </div>
 
-    </div>
-
-
-
-    <div id="vue-map">
-        <button v-on:click="centerButton" type="button" class="btn btn-primary btn-sm centerBtn">Centrer</button>
-    <div id="map_canvas1"></div>
-
-  <!--div v-on:click="markerMap" id="map_canvas1"></div>
-    <input type="text" id="lngFld">
-  <input type="text" id="latFld"-->
-</div>
-
-
-    <div class="slideAddNewBtn">
-        <button v-if="isDisplayed" v-on:click="show"><img class="btnAjt" src="./img/AddBtn.png" alt=""/></button>
-    </div>
-    <!--<div>
-            <button v-on:click="show"><img class="btnAjt" src="../AddBtn.png" alt=""/></button>
         </div>
-    </div>-->
-    <div id="map"></div>
-    
-    
+
+
+
+        <div id="vue-map">
+            <button v-on:click="centerButton" type="button" class="btn btn-primary btn-sm centerBtn">Centrer</button>
+            <div id="map_canvas1"></div>
+
+                        <!--div v-on:click="markerMap" id="map_canvas1"></div>
+              <input type="text" id="lngFld">
+            <input type="text" id="latFld"-->
+        </div>
+
+
+        <div class="slideAddNewBtn">
+            <button v-if="isDisplayed" v-on:click="show"><img class="btnAjt" src="./img/AddBtn.png" alt=""/></button>
+        </div>
+        <!--<div>
+                <button v-on:click="show"><img class="btnAjt" src="../AddBtn.png" alt=""/></button>
+            </div>
+        </div>-->
+        <div id="map"></div>
+
+        <div v-if="isDisplayed" class="slideInfoClosed">
+            <div id="divBtnBack"  class="col-xs-2">
+                <img v-on:click="backBtn" class="stylePhoto backBtn2" id="BackBtn" alt="Ouverture de la slide" src="img/Ge-Soif-Glyphicons/flecheActive.jpg">
+            </div>
+        </div>
+
+
         <div v-if="isDisplayed" class="slideInfo">
             <div>
-            <div id="divBtnBack"  class="col-xs-2">
-                <img v-on:click="backBtn" class="stylePhoto backBtn" id="BackBtn" alt="Fermeture de la slide" src="img/Ge-Soif-Glyphicons/BackBtn.png">
+                <div id="divBtnBack"  class="col-xs-2">
+                    <img v-on:click="backBtn" class="stylePhoto backBtn" id="BackBtn" alt="Fermeture de la slide (tout en étant active)" src="img/Ge-Soif-Glyphicons/BackBtn.png">
+                </div>
+
+
+                <div id="divBtnBack"  class="col-xs-2">
+                    <img v-on:click="CloseBtn" class="stylePhoto backBtn" id="BackBtn" alt="Fermeture de la slide (complete) " src="img/Ge-Soif-Glyphicons/CancelBtnInfo.png">
+                </div>
+
+
+                <div id="divDirections"  class="col-xs-2">
+                    <img v-on:click="directions" class="stylePhoto directions" id="Directions" alt="Bouton d'itinéraire" src="img/directions.png">
+                </div>
+                <div id="imgProvisoire"  class="col-xs-2">
+                    <img v-on:click="imgProvisoire" class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
+                </div>
+
+
             </div>
-            <div id="divDirections"  class="col-xs-2">
-                <img v-on:click="directions" class="stylePhoto directions" id="Directions" alt="Bouton d'itinéraire" src="img/directions.png">
-            </div>
-            <div id="imgProvisoire"  class="col-xs-2">
-                <img v-on:click="imgProvisoire" class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
-            </div>
-        </div>
         <p name="address" id="addressSlideInfo">{{address}}</p>
-        <div class="traitHorizontal"></div>
-    </div>
-    
-    
-    <script src="bs/js/bootstrap.min.js" type="text/javascript"></script>
-    <?php
+            <div class="traitHorizontal"></div>
+
+        </div>
+
+
+
+        <script src="bs/js/bootstrap.min.js" type="text/javascript"></script>
+        <?php
 //show the correct modal if there was an error
-    if (isset($error['login'])) {
-        echo "<script>$('#connexionModal').click()</script>";
-    }
-    ?>
-</body>
+        if (isset($error['login'])) {
+            echo "<script>$('#connexionModal').click()</script>";
+        }
+        ?>
+    </body>
 </html>

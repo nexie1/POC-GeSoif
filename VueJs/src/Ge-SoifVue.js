@@ -49,13 +49,27 @@ $(document).ready(function () {
 
             // Localise la personne (si possible) TODO
             location: function () {
-                mapVue.placeNewMarker(mapVue.currentPos);
+                mapVue.placeNewMarker(mapVue.currentPos); // fonction placeNewMarker avec en parametre notre position
                 mapVue.map.setOptions(
                        {center:mapVue.currentPos,
                         zoom:15}
-                );
+                ); // centre la map sur notre position
                 this.imgLocation = 'img/Ge-Soif-Glyphicons/LocationON.png';
-                // Mettre fonction Localisation
+            }
+        }
+    });
+
+    //Slide de la fenêtre contenant les informations des fontaines (cette fenêtre n'est la que pour la déco)
+    var slideInfoClosed = new Vue({
+        el: '.slideInfoClosed',
+        data: {
+            isDisplayed: false, //Se cache au chargement de la page
+            address:"", // Set l'addresse à vide
+        },
+        methods: {
+            backBtn: function() {
+                slideInfo.isDisplayed = true; // Permet d'afficher la slide contenant toutes les informations des fontaines
+                this.isDisplayed = false; // Cache le morceau de fenêtre
             }
         }
     });
@@ -65,11 +79,16 @@ $(document).ready(function () {
         el: '.slideInfo',
         data: {
             isDisplayed: false, //Se cache au chargement de la page
-            address:""
+            address:"", // Set l'addresse à vide
         },
         methods: {
             backBtn: function() {
-                this.isDisplayed = false;
+                slideInfoClosed.isDisplayed = true; // Affiche le morceau de fenêtre
+                this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
+            },
+            CloseBtn: function() {
+                slideInfoClosed.isDisplayed = false; // Affiche le morceau de fenêtre
+                this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
             }
         }
     });
@@ -129,7 +148,7 @@ $(document).ready(function () {
                 }
                 else if(from == "infoAdd") {
                     this.isInfo = "true";
-                    this.message = 'Pour ajuster la position de la fontaine vous pouvez cliquer sur la carte ou taper une adresse.';
+                    this.message = 'Pour ajuster la position de la fontaine vous pouvez cliquer sur la carte.';
                 }
                 
                 this.isDisplay = true; // Affiche la notification
@@ -139,7 +158,7 @@ $(document).ready(function () {
                 // Ferme la fenêtre après un certain temps (timeClosed)
                 setTimeout(function () {
                     alert_popup.closed(); // Cache la fenêtre de notification
-                    // Désactive la class de la notif
+                    // Désactive la class de la notification
                     alert_popup.isSuccess = false;
                     alert_popup.isDanger = false;
                     alert_popup.isInfo = false;
@@ -176,37 +195,37 @@ $(document).ready(function () {
                 center: new google.maps.LatLng(46.208651, 6.149596),
                 // Affichage des boutons zoom/dézoom au centre à gauche et les boutons Plan/Satellite en haut à gauche
                 mapTypeControl: true,
-                mapTypeControlOptions: {
+                mapTypeControlOptions: { // choix satelite ou plans
                     style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                     position: google.maps.ControlPosition.LEFT_TOP
                 },
                 zoomControl: true,
-                zoomControlOptions: {
+                zoomControlOptions: { // zoom + et -
                     position: google.maps.ControlPosition.LEFT_CENTER
                 },
                 scaleControl: true,
                 streetViewControl: true,
-                streetViewControlOptions: {
+                streetViewControlOptions: { // activation du street view
                     position: google.maps.ControlPosition.LEFT_CENTER
                 }
             };
             this.map = new google.maps.Map(document.getElementById("map_canvas1"), myOptions); // La variable "map" prend la valeur de "map_canvas1", le nom de notre map
             this.markerFountainPlaced(); // Place les fontaines sur la carte
 
-            this.getMyPosition();
+            this.getMyPosition(); // appel la fonction qui va trouver ma position, s'il ne me trouve pas, ne place à la position par-défaut
 
             //Ajout des markers
             google.maps.event.addListener(this.map, 'click', function (event) {
-                if (markerEnable == true) {
+                if (markerEnable == true) { // Test si le marqueurs est activé, si c'est le cas place un markers à la position du clic.
                     slideAddFountain.imgLocation = 'img/Ge-Soif-Glyphicons/LocationOFF.png';
-                    //mapVue.placeNewMarker(mapVue.currentPos); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                     mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
                 }
             });
         },
         methods: {
+                this.map.setOptions( // rêgle le zoom à 15
             placeNewMarker: function (location) { // Fonction qui place un marker vert losqu'on clique sur la map
-                this.removeNewMarker();
+                this.removeNewMarker(); // fonction qui supprime le marker précédent
                 if (this.newMarker === null) {
                     // Ne peux pas être modifié car il va de pairs avec la fonction removeNewMarker()
                     this.newMarker = new google.maps.Marker({
@@ -215,7 +234,7 @@ $(document).ready(function () {
                         icon: 'img/newFountainIcon.png'
                     });
 
-                    mapVue.getAddress(location);
+                    mapVue.getAddress(location); // Transforme les positions en adresse (46.11231, 32.4453 = chemin du bac ...)
                 }
             },
 
@@ -225,39 +244,38 @@ $(document).ready(function () {
                     this.newMarker = null;
                 }
             },
-            getAddress: function (location) {
+            getAddress: function(location){ // Permet d'afficher l'adresse dans la slide d'ajout de fontaine
                 var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({'latLng': location}, function (result, status) {
+                geocoder.geocode({'latLng': location}, function(result, status){
                     var res = result;
-                    slideAddFountain.address = res[0].formatted_address;
+                    slideAddFountain.address = res[0].formatted_address; // res[0] correspond à la précision ultime de GG.map
                 });
             },
-            addMarkersClickListener: function (clickedMarker, infoWindow) {
-                $.each(this.existingFountainMarkers, function (index, value) {
+            addMarkersClickListener: function(clickedMarker, infoWindow) {// Permet d'afficher l'adresse dans la slide d'info de fontaine
+                $.each(this.existingFountainMarkers, function(index, value){
                     var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({'latLng': value.position}, function (result, status) {
+                    geocoder.geocode({'latLng': value.position}, function(result, status){
                             var res = result;
                             value.addListener("click", function(){
-                                /*infoWindow.setContent(res[0].formatted_address);
-                                infoWindow.open(this.map, value);    */
-                                slideInfo.isDisplayed = true;
+                            slideInfo.isDisplayed = true; // Affiche la slide info
+                            slideInfoClosed.isDisplayed = false; // Cache la slide info fermée
                                 slideInfo.address = res[0].formatted_address;
                             }
                         );
                     });
                 });
             },
-            getMyPosition: function () {
+            getMyPosition: function() { // Utilise Gogole pour trouver notre position
                 if (navigator.geolocation)
                 {
-                    navigator.geolocation.getCurrentPosition(function (position)
+                        navigator.geolocation.getCurrentPosition(function (position) // Si ça marche affiche notre position
                     {
                         alert_popup.show("located");
                         mapVue.currentPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                     },
-                            function (err)
+                        function (err)// Si ça marche pas affiche la position par défaut
                             {
-                                alert_popup.show("notLocated");
+                            alert_popup.show("notLocated"); 
                                 mapVue.currentPos = new google.maps.LatLng(46.208651, 6.149596);
                             },
                             {timeout: 10000}
@@ -290,7 +308,7 @@ $(document).ready(function () {
                         {center: mapVue.currentPos}
                 );
             },
-            createMarker: function (markerPosition, markerImageUrl) {
+            createMarker: function(markerPosition, markerImageUrl){ // Créer un marqueur à la position demandée avec l'image demandée
                 var currentPosMarker = new google.maps.Marker({
                     position: markerPosition,
                     map: mapVue.map,
