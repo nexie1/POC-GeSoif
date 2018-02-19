@@ -2,8 +2,8 @@
 /*
  *constantes de connexion
  */
-define('DB_HOST', '10.134.96.109');
-define('DB_NAME', 'gesoif_preprod');
-define('DB_USER', 'gesoif_pp');
-define('DB_PWD', 'Super2016');
+define('DB_HOST', '127.0.0.1');
+define('DB_NAME', 'db_gesoif');
+define('DB_USER', 'root');
+define('DB_PWD', '');
 ?>
