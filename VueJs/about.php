@@ -111,7 +111,7 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-                                <span class="visible-xs navbar-brand">Sidebar menu</span>
+                                <span class="visible-xs navbar-brand">Menu</span>
                             </div>
                             <div class="navbar-collapse collapse sidebar-navbar-collapse" v-if="isDisplayed"> 
                                 <ul class="nav navbar-nav aProposNav">
@@ -123,10 +123,12 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-offset-1 col-lg-offset-1 col-md-offset-1  col-xs-12 col-sm-9 col-lg-9 col-md-9">
+                <div class=" col-sm-offset-1 col-lg-offset-1 col-md-offset-1 col-xs-12 col-sm-9 col-lg-9 col-md-9 ">
+                    
+                    
                     <!--  Actualité  -->
-                    <div class="actu">
-                        <div v-if="isDisplayed" class="container"> 
+                    <div class="actu col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                        <div v-if="isDisplayed"> 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-9 col-lg-9 col-md-9">
                                     <div class="clearfix">
@@ -162,8 +164,18 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                     </div>
                     <!--  Fin Actualité  -->
 
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     <!--  Notre équipe -->
-                    <div class="equipe">
+                    <div class="equipe col-xs-12 col-sm-12 col-lg-12 col-md-12">
                         <div v-if="isDisplayed" class="container">
                             <div class="row">
                                 <div class="col-md-12">
@@ -171,7 +183,8 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                         <section>
                                             <h1>Equipe et remerciements</h1>
                                             <hr>
-                                            <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
+                                            
+                                            <article class="col-xs-12 col-sm-12 col-lg-9 col-md-9">
                                                 <div class="thumbnail">
                                                     <img class="img-rounded" src="./img/about/dev.png" alt="Dev. Team">
                                                     <div class="caption">
@@ -228,7 +241,10 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                     </div>
                                                 </div>
                                             </article>
-                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                            
+                                            
+                                            
+                                            <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                                                 <div class="thumbnail">
                                                     <img class="img-rounded" src="./img/about/graph.png" alt="Graphisme">
                                                     <div class="caption">
@@ -267,7 +283,8 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                 </div>
                                             </article>
 
-                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                            
+                                            <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                                                 <div class="thumbnail">
                                                     <img class="img-rounded" src="./img/about/idee.png" alt="Product Owner">
                                                     <div class="caption">
