@@ -98,9 +98,11 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
         <?php
         include("./Menu/MenuDeco.php");
         ?>
-        <!--Content-->    
+         
         <div class="container">
             <div class="row">
+                
+                <!--NavBar-->   
                 <div class="col-sm-2">
                     <div class="sidebar-nav">
                         <div class="navbar navbar-default" role="navigation">
@@ -123,16 +125,17 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                         </div>
                     </div>
                 </div>
-                <div class=" col-sm-offset-1 col-lg-offset-1 col-md-offset-1 col-xs-12 col-sm-9 col-lg-9 col-md-9 ">
-                    
+                <!--Fin NavBar-->  
+                
+                <div class=" col-sm-offset-1 col-lg-offset-1 col-md-offset-1 col-xs-12 col-sm-9 col-lg-9 col-md-9 ">    
                     
                     <!--  Actualité  -->
                     <div class="actu col-xs-12 col-sm-12 col-lg-12 col-md-12">
                         <div v-if="isDisplayed"> 
                             <div class="row">
-                                <div class="col-xs-12 col-sm-9 col-lg-9 col-md-9">
+                                <!--<div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">-->
                                     <div class="clearfix">
-                                        <!--<section>-->
+                                        <section>
                                         <h1>Actualité</h1>
                                         <hr>
                                         <article class=" col-xs-12 col-sm-12 col-lg-6 col-md-6">
@@ -142,7 +145,6 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                 </div>
                                                 <iframe width="100%" height="296" src="https://www.youtube.com/embed/K3JngtvrcdI"
                                                         frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
                                             </div>
                                         </article>
                                         <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
@@ -156,40 +158,57 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                         frameborder="1" allowTransparency="true"></iframe>
                                             </div>
                                         </article>                                             
-                                        <!--</section>-->
+                                        </section>
                                     </div>
-                                </div>
+                                <!--</div>-->
                             </div>
                         </div> 
                     </div>
                     <!--  Fin Actualité  -->
-
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     
                     <!--  Notre équipe -->
                     <div class="equipe col-xs-12 col-sm-12 col-lg-12 col-md-12">
                         <div v-if="isDisplayed" class="container">
                             <div class="row">
-                                <div class="col-md-12">
+                                <!--<div class="col-md-12">-->
                                     <div class="clearfix">
                                         <section>
                                             <h1>Equipe et remerciements</h1>
                                             <hr>
-                                            
-                                            <article class="col-xs-12 col-sm-12 col-lg-9 col-md-9">
+
+                                            <article class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                                <div class="thumbnail">
+                                                    <img class="img-rounded" src="./img/about/idee.png" alt="Product Owner">
+                                                    <div class="caption">
+                                                        <h4>Product Owner</h4>
+                                                        <h5><b>Jasmina Travnjak</b></h5>
+                                                        <p class="text-justify">Initiatrice de l'idée, enseignante à <a href="https://edu.ge.ch/site/cfpt-informatique/" target="_blank">l'école d'informatique du CFPT</a>, elle a géré le projet et accompagné ses étudiants dans l'étude des besoins, le développement, les tests et les graphismes ainsi que la mise en pratique de la méthodologie de gestion de projet SCRUM.</p>
+                                                    </div>
+                                                </div>
+                                            </article>      
+                                            <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                                                 <div class="thumbnail">
                                                     <img class="img-rounded" src="./img/about/dev.png" alt="Dev. Team">
                                                     <div class="caption">
                                                         <h4>Développeurs</h4>
-                                                        <p class="text-justify">Le développement s'est fait en plusieurs étapes, dans le cadre d'un atelier web dispensé au <a href="http://icp.ge.ch/po/cfc-informatique"  target="_blank">CFPT</a>.</p>
+                                                        <p class="text-justify">Le développement s'est fait en plusieurs étapes, dans le cadre d'un atelier web dispensé au <a href="http://icp.ge.ch/po/cfc-informatique"  target="_blank">CFPT</a>.</p>                                     
+                                                        <!-- Version 4.0 -->
+                                                        <div class="versions">
+                                                            <button class="btn btn-default btnversions" type="button" data-target="#DevV4" data-toggle="collapse" aria-expanded="false" aria-controls="DevV3">Version 4.0<span style="float:right;">▼</span></button>
+                                                            <section id="DevV4" class="collapse">
+                                                                <div class="list-group-item">
+                                                                    <h5>
+                                                                        <ul>
+                                                                            <li class="listeDev">Marco Fernandes</li>
+                                                                            <li class="listeDev">Corentin Cotture</li>
+                                                                            <li class="listeDev">Dany Serigado</li>
+                                                                            <li class="listeDev">Luc Meier</li>
+                                                                            <ul class="listeDate">2018-2019</ul>
+                                                                        </ul>
+                                                                    </h5>
+                                                                </div>
+                                                            </section>
+                                                        </div>
                                                         <!-- Version 3.0 -->
                                                         <div class="versions">
                                                             <button class="btn btn-default btnversions" type="button" data-target="#DevV3" data-toggle="collapse" aria-expanded="false" aria-controls="DevV3">Version 3.0<span style="float:right;">▼</span></button>
@@ -241,9 +260,7 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                     </div>
                                                 </div>
                                             </article>
-                                            
-                                            
-                                            
+
                                             <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                                                 <div class="thumbnail">
                                                     <img class="img-rounded" src="./img/about/graph.png" alt="Graphisme">
@@ -282,34 +299,23 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                     </div>
                                                 </div>
                                             </article>
-
                                             
-                                            <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
-                                                <div class="thumbnail">
-                                                    <img class="img-rounded" src="./img/about/idee.png" alt="Product Owner">
-                                                    <div class="caption">
-                                                        <h4>Product Owner</h4>
-                                                        <h5><b>Jasmina Travnjak</b></h5>
-                                                        <p class="text-justify">Initiatrice de l'idée, enseignante à <a href="https://edu.ge.ch/site/cfpt-informatique/" target="_blank">l'école d'informatique du CFPT</a>, elle a géré le projet et accompagné ses étudiants dans l'étude des besoins, le développement, les tests et les graphismes ainsi que la mise en pratique de la méthodologie de gestion de projet SCRUM.</p>
-                                                    </div>
-                                                </div>
-                                            </article>
                                             <hr>
                                         </section>
                                     </div>
-                                </div>
+                                <!--</div>-->
                             </div>
                         </div>
                     </div>
                     <!--  Fin Notre équipe -->
 
                     <!--  A propos -->
-                    <div class="nosPropos">
+                    <div class="nosPropos col-xs-12 col-sm-12 col-lg-12 col-md-12">
                         <div v-if="isDisplayed" class="container"> 
                             <div class="row">
-                                <div class="col-md-12">
+                                <!--<div class="col-md-12">-->
                                     <div class="row">
-                                        <section class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <section>
                                             <article>
                                                 <h1>A propos</h1>
                                                 <hr>
@@ -328,31 +334,8 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                     </div>
                                     <div class="clearfix">
                                         <section>
-
-                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
-                                                <div class="thumbnail">
-                                                    <img class="img-rounded" src="./img/about/merci.png" alt="">
-                                                    <div class="caption">
-                                                        <h4>Remerciements</h4>
-                                                        <h5>Service du Génie Civil</h5>
-                                                        <h5>Classe Atelier Web IFAP2B & IDAP2B 2016</h5>
-                                                        <h5>L'équipe Gemprunte de la classe INP4B 2017</h5>
-                                                        <p><strong>Et surtout merci à VOUS tous de participer et ajouter des fontaines!</strong></p>
-                                                    </div>
-                                                </div>
-                                            </article>                        
-
-                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
-                                                <div class="thumbnail">
-                                                    <img id="DistImg"  class="img-rounded" src="./img/about/distinction.png" alt="">
-                                                    <div class="caption">
-                                                        <h4>Concours Cantonal de Développement Durable</h4>
-                                                        <p class="text-justify">Ce projet a reçu la Distinction Cantonale de Développement Durable 2016.</p>
-                                                    </div>
-                                                </div>
-                                            </article>
-
-                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                            
+                                            <article class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                                 <div class="thumbnail">
                                                     <img class="img-rounded" src="./img/about/data.png" alt="">
                                                     <div class="caption">
@@ -393,21 +376,49 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                 </div>
                                             </article>
 
+                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                                <div class="thumbnail">
+                                                    <img class="img-rounded" src="./img/about/merci.png" alt="">
+                                                    <div class="caption">
+                                                        <h4>Remerciements</h4>
+                                                        <h5>Service du Génie Civil</h5>
+                                                        <h5>Classe Atelier Web IFAP2B & IDAP2B 2016</h5>
+                                                        <h5>L'équipe Gemprunte de la classe INP4B 2017</h5>
+                                                        <p><strong>Et surtout merci à VOUS tous de participer et ajouter des fontaines!</strong></p>
+                                                    </div>
+                                                </div>
+                                            </article>                        
+
+                                            <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                                <div class="thumbnail">
+                                                    <img id="DistImg"  class="img-rounded" src="./img/about/distinction.png" alt="">
+                                                    <div class="caption">
+                                                        <h4>Concours Cantonal de Développement Durable</h4>
+                                                        <p class="text-justify">Ce projet a reçu la Distinction Cantonale de Développement Durable 2016.</p>
+                                                    </div>
+                                                </div>
+                                            </article>
+
+                                            
+
                                         </section>
                                     </div>
-                                </div>
+                                <!--</div>-->
                             </div>
                         </div> 
                     </div>
+                    
                     <!--  Fin A propos -->
 
                 </div>
-            </div>
-        </div>
+            </div>         
+            <div class="row" >
         <?php
         include("Menu/footer.php");
         ?>
-
+        </div>       
+        </div>
+        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="bs/js/bootstrap.min.js"></script>
         <script>
