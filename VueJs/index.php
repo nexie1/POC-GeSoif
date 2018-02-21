@@ -27,25 +27,25 @@ if (isset($_REQUEST['latlng'])) {
                 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=fr"></script>
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=fr"></script>-->
     </head>
-    <body class="scroll">    
+    <body class="scroll">
         <?php
         include("./Menu/MenuDeco.php");
         ?>
-        
-    
+
+
 <!--<div id="demo">
             <p><i>myInstanceAddress</i> Property</p>
             <pre>{{ myInstanceAddress | json }}</pre>
                     <input id="addressInput" type="text" />
                 </div>-->
-    
+
         <!--Affichage du div d'ajout de fontaine-->
-        <div v-if="isDisplayed" class="slideAddFountain">   
+        <div v-if="isDisplayed" class="slideAddFountain">
 
             <!-- Mettre tout les trucs pour add une foutaine -->
             <div class="row" >
-                <div  class="col-xs-offset-2 col-xs-10">                        
-                    <label class="label label-info"> Adresse choisie : </label>      
+                <div  class="col-xs-offset-2 col-xs-10">
+                    <label class="label label-info"> Adresse choisie : </label>
                 </div>
             </div>
             <div class="row">
@@ -53,15 +53,15 @@ if (isset($_REQUEST['latlng'])) {
                     <button class="littleImg StyleBtn" v-on:click="location"><img class="stylePhoto" id="actualPos" :src="imgLocation" alt="image location"></button>
                 </div>
                 <div  class="col-xs-6">
-                    <label type="text" class="form-control" name="addressSlideInfo" id="address">{{address}}</label> 
+                    <label type="text" class="form-control" name="addressSlideInfo" id="address">{{address}}</label>
                 </div>
-                <div class="col-xs-3">                        
+                <div class="col-xs-3">
                     <div class="image-upload">
                         <label for="FileInput">
                             <img v-on:click="addPhoto" class="stylePhoto littleImg" id="AddPhoto" alt="Ajouter une photo" src="img/Ge-Soif-Glyphicons/AddPhotoBtn.png">
                         </label>
                         <input type="file" class="col-xs-3 form-control-file" accept="image/*" name="imgFile" id="FileInput"/>
-                    </div>                               
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -94,7 +94,6 @@ if (isset($_REQUEST['latlng'])) {
                 <button v-on:click="show"><img class="btnAjt" src="../AddBtn.png" alt=""/></button>
             </div>
         </div>-->
-        <div id="map"></div>
 
         <div v-if="isDisplayed" class="slideInfoClosed">
             <div id="divBtnBack"  class="col-xs-2">
