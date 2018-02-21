@@ -123,6 +123,11 @@ button {
     height : 35px;
 }
 
+#DistImg{
+    
+    width:475px;
+}
+
 #alert_template {
     position: absolute;
     z-index: 1056;
