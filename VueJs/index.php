@@ -111,7 +111,7 @@ if (isset($_REQUEST['latlng'])) {
 
 
                 <div id="divBtnBack"  class="col-xs-2">
-                    <img v-on:click="CloseBtn" class="stylePhoto backBtn" id="BackBtn" alt="Fermeture de la slide (complete) " src="img/Ge-Soif-Glyphicons/CancelBtnInfo.png">
+                    <img v-on:click="closeBtn" class="stylePhoto backBtn" id="BackBtn" alt="Fermeture de la slide (complete) " src="img/Ge-Soif-Glyphicons/CancelBtnInfo.png">
                 </div>
 
 
@@ -126,7 +126,7 @@ if (isset($_REQUEST['latlng'])) {
             </div>
         <p name="address" id="addressSlideInfo">{{address}}</p>
             <div class="traitHorizontal"></div>
-        <div class="lblDirections">
+        <div v-if="isDisplayed" class="lblDirections">
             <label class="label label-primary"> {{tempsItineraire}} </label>
             <label class="label label-primary"> {{distanceItineraire}} </label>
         </div>

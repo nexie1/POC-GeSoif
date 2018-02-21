@@ -152,8 +152,7 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                 width="100%" height="500" style="border:none;overflow:hidden" scrolling="no"
                                                 frameborder="1" allowTransparency="true"></iframe>
                                             </div>
-                                        </article>                     
-                                        <!--Insta-->
+                                        </article>                                             
                                     <!--</section>-->
                                 </div>
                             </div>
@@ -169,7 +168,7 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                     <section>
                                         <h1>Equipe et remerciements</h1>
                                         <hr>
-                                        <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
+                                        <article class="col-xs-12 col-sm-12 col-lg-6 col-md-6">
                                             <div class="thumbnail">
                                                 <img class="img-rounded" src="./img/about/dev.png" alt="Dev. Team">
                                                 <div class="caption">
@@ -288,7 +287,7 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
-                                    <section class="col-md-12">
+                                    <section class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                                         <article>
                                             <h1>A propos</h1>
                                             <hr>
@@ -320,10 +319,10 @@ eque prévu.Etlà,auc    unefontained'ea uàproximitéetpasmoyen
                                                 </div>
                                             </div>
                                         </article>                        
-                                        <hr>      
+                                         
                                         <article class="col-xs-12 col-sm-6 col-lg-6 col-md-6">
                                             <div class="thumbnail">
-                                                <img class="img-rounded" src="./img/about/distinction.png" alt="">
+                                                <img id="DistImg"  class="img-rounded" src="./img/about/distinction.png" alt="">
                                                 <div class="caption">
                                                     <h4>Concours Cantonal de Développement Durable</h4>
                                                     <p class="text-justify">Ce projet a reçu la Distinction Cantonale de Développement Durable 2016.</p>

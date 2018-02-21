@@ -81,14 +81,17 @@ $(document).ready(function () {
             isDisplayed: false, //Se cache au chargement de la page
             address:"", // Set l'addresse à vide
             tempsItineraire: "",
-            distanceItineraire: ""
+            distanceItineraire: "",
         },
         methods: {
             backBtn: function() {
                 slideInfoClosed.isDisplayed = true; // Affiche le morceau de fenêtre
                 this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
             },
-            CloseBtn: function() {
+            directions: function() {
+                this.calcRoute(mapVue.positionProvisoire);
+            },
+            closeBtn: function() {
                 slideInfoClosed.isDisplayed = false; // Affiche le morceau de fenêtre
                 this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
              },
@@ -298,7 +301,7 @@ var mapVue = new Vue({
                             value.addListener("click", function(){
                             slideInfo.isDisplayed = true; // Affiche la slide info
                             slideInfoClosed.isDisplayed = false; // Cache la slide info fermée
-                                slideInfo.address = res[0].formatted_address;
+                            slideInfo.address = res[0].formatted_address;
                             }
                         );
                     });
@@ -322,13 +325,13 @@ var mapVue = new Vue({
                 }
             },
             markerFountainPlaced: function () { // Fonction qui affiche 7 markers sur la map
-                positionProvisoire[0] = {lat: 46.184, lng: 6.148};
-                positionProvisoire[1] = {lat: 46.193, lng: 6.107};
-                positionProvisoire[2] = {lat: 46.205, lng: 6.157};
-                positionProvisoire[3] = {lat: 46.210, lng: 6.143};
-                positionProvisoire[4] = {lat: 46.198, lng: 6.142};
-                positionProvisoire[5] = {lat: 46.183, lng: 6.136};
-                positionProvisoire[6] = {lat: 46.230, lng: 6.110};
+                positionProvisoire[0] = new google.maps.LatLng(46.184, 6.148); //{lat: 46.184, lng: 6.148};
+                positionProvisoire[1] = new google.maps.LatLng(46.193, 6.107); //{lat: 46.193, lng: 6.107};
+                positionProvisoire[2] = new google.maps.LatLng(46.205, 6.157); //{lat: 46.205, lng: 6.157};
+                positionProvisoire[3] = new google.maps.LatLng(46.210, 6.143); //{lat: 46.210, lng: 6.143};
+                positionProvisoire[4] = new google.maps.LatLng(46.198, 6.142); //{lat: 46.198, lng: 6.142};
+                positionProvisoire[5] = new google.maps.LatLng(46.183, 6.136); //{lat: 46.183, lng: 6.136};
+                positionProvisoire[6] = new google.maps.LatLng(46.230, 6.110); //{lat: 46.230, lng: 6.110};
 
                 for (i = 0; i < positionProvisoire.length; i++) {
                     var markerPlaced = new google.maps.Marker({
