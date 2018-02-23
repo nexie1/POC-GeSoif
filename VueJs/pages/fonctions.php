@@ -317,13 +317,14 @@ function delete_user($id) {
  * ------------------------------------------------------
  * @return array Tableaux multidimensionnel
  */
-function get_fountains($swLat, $swLng, $neLat, $neLng) {
+function get_fountains($swLat = 0, $swLng=0, $neLat=0, $neLng=0) {
 
-    $req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE latitude BETWEEN :swLat AND :neLat AND longitude BETWEEN :swLng AND :neLng AND active = 1');
+    $req = db_connect()->prepare('SELECT * FROM `t_fountain`');
+    /*$req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE latitude BETWEEN :swLat AND :neLat AND longitude BETWEEN :swLng AND :neLng AND active = 1');
     $req->bindParam(':swLat', $swLat);
     $req->bindParam(':swLng', $swLng);
     $req->bindParam(':neLat', $neLat);
-    $req->bindParam(':neLng', $neLng);
+    $req->bindParam(':neLng', $neLng);*/
 
     $req->execute();
 
