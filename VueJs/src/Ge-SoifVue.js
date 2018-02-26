@@ -89,7 +89,9 @@ $(document).ready(function () {
                 this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
             },
             directions: function () {
-                this.calcRoute(slideInfo.coord);
+                //this.calcRoute(slideInfo.coord);
+                location.href = "https://www.google.fr/maps/dir/"+mapVue.currentPos+"/"+slideInfo.coord+"/";
+
             },
             closeBtn: function () {
                 slideInfoClosed.isDisplayed = false; // Affiche le morceau de fenêtre
@@ -328,9 +330,7 @@ $(document).ready(function () {
             markerFountainPlaced: function () { // Fonction qui affiche 7 markers sur la map
                 $.get("./pages/ajaxCall.php", {getFountains: "true"}).done(function (data) {
                     var loadedFountains = JSON.parse(data)
-                    
-                    alert("Data Loaded: " + loadedFountains);
-//new google.maps.LatLng//{lat: 46.184, lng: 6.148};
+                    //new google.maps.LatLng//{lat: 46.184, lng: 6.148};
                   
                     $.each(loadedFountains, function(index,value){
                         var markerPlaced = new google.maps.Marker({
@@ -375,38 +375,4 @@ $(document).ready(function () {
             link: 'index.php'
         },
     });
-    /*******************************************************
-     ******************** Modif APROPOS ********************
-     *******************************************************/
-
-    /*var aPropos = new Vue({
-     
-     el: '.aPropos',
-     data: {                
-     DisplayApropos: false
-     },
-     methods: {
-     
-     divActu: function(){
-     divActu.DisplayApropos = true;
-     },
-     divEquipe: function(){
-     
-     divActu.DisplayApropos = false;
-     divEquipe.DisplayApropos = true;
-     
-     },
-     divPropos: function(){
-     
-     divEquipe.DisplayApropos = false;
-     divPropos.DisplayApropos = true;
-     
-     }       
-     }
-     
-     });*/
-
-
-
-
 });
