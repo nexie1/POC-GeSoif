@@ -118,7 +118,7 @@ if (isset($_REQUEST['latlng'])) {
                     <img v-on:click="directions" class="stylePhoto directions" id="Directions" alt="Bouton d'itinéraire" src="img/directions.png">
                 </div>
                 <div id="imgProvisoire"  class="col-xs-2">
-                    <img v-on:click="imgProvisoire" class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
+                    <img class="stylePhoto imgProvisoire" id="ImgProvisoire" alt="Image remplaçant la photo de fontaine" src="img/geSoifMarker.gif">
                 </div>
 
 

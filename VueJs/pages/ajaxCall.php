@@ -34,10 +34,10 @@ if (isset($_REQUEST["getOlpb"])) {
 
 //ajax call to insert a new fountain
 if (isset($_REQUEST['addFountain'])) {
-    $title = isset($_REQUEST['title']) ? htmlspecialchars($_REQUEST['title']) : "";
+   // $title = isset($_REQUEST['title']) ? htmlspecialchars($_REQUEST['title']) : "";
     $latitude = isset($_REQUEST['latitude']) ? htmlspecialchars($_REQUEST['latitude']) : 'S';
     $longitude = isset($_REQUEST['longitude']) ? htmlspecialchars($_REQUEST['longitude']) : '';
-    $address = isset($_REQUEST['address']) ? htmlspecialchars($_REQUEST['address']) : '';
+    //$address = isset($_REQUEST['address']) ? htmlspecialchars($_REQUEST['address']) : '';
    $image = isset($_FILES['imgFile']) ? $_FILES['imgFile'] : null;
     /*$image = $images[0];*/
     
@@ -45,11 +45,11 @@ if (isset($_REQUEST['addFountain'])) {
 
     //$image = ($image != "") ? json_decode($_REQUEST['imgFile']) : null;
     //Verification
-    if ($title == "" || strlen($title) > 80) {
+    /*if ($title == "" || strlen($title) > 80) {
         $title = "Fontaine d'eau";
-    }
+    }*/
 
-    if ($latitude == "" || $longitude == "" || $address == "") {
+    if ($latitude == "" || $longitude == ""/* || $address == ""*/) {
         $error['position'] = "Veuillez entrer une position correcte!";
     }else{
         $imageUniqueName = "default.png";
@@ -59,7 +59,7 @@ if (isset($_REQUEST['addFountain'])) {
     }
         }
         $lastId = 0;
-        $lastId = add_fountain($title, $latitude, $longitude, $address, 0, $imageUniqueName);
+        $lastId = add_fountain(/*$title,*/ $latitude, $longitude/*, $address*/, 0, $imageUniqueName);
 
     if (!isset($error) && $lastId > 0) {
             $result = add_Fountain_image($image);

@@ -317,14 +317,14 @@ function delete_user($id) {
  * ------------------------------------------------------
  * @return array Tableaux multidimensionnel
  */
-function get_fountains($swLat = 0, $swLng=0, $neLat=0, $neLng=0) {
+function get_fountains($swLat = 0, $swLng = 0, $neLat = 0, $neLng = 0) {
 
     $req = db_connect()->prepare('SELECT * FROM `t_fountain`');
-    /*$req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE latitude BETWEEN :swLat AND :neLat AND longitude BETWEEN :swLng AND :neLng AND active = 1');
-    $req->bindParam(':swLat', $swLat);
-    $req->bindParam(':swLng', $swLng);
-    $req->bindParam(':neLat', $neLat);
-    $req->bindParam(':neLng', $neLng);*/
+    /* $req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE latitude BETWEEN :swLat AND :neLat AND longitude BETWEEN :swLng AND :neLng AND active = 1');
+      $req->bindParam(':swLat', $swLat);
+      $req->bindParam(':swLng', $swLng);
+      $req->bindParam(':neLat', $neLat);
+      $req->bindParam(':neLng', $neLng); */
 
     $req->execute();
 
@@ -543,18 +543,18 @@ function delete_fountain_image($id) {
  * @param float $active
  * @return int|boolean lastID added in the DB | false
  */
-function add_fountain($title, $latitude, $longitude, $address, $active, $image) {
+function add_fountain($latitude, $longitude, $active, $image) {
     static $req = null;
+    $time = date("Y-m-d H:i:s");
 
     $bdd = db_connect();
 
     if ($req == null) {
-        $req = $bdd->prepare("INSERT INTO t_fountain(title, latitude, longitude, address, active, img) VALUES (:title, :latitude, :longitude, :address, :active, :image)");
+        $req = $bdd->prepare("INSERT INTO t_fountain(latitude, longitude,time, active, img) VALUES (:latitude, :longitude, :time, :active, :image)");
     }
-    $req->bindParam(":title", $title, PDO::PARAM_STR);
     $req->bindParam(":latitude", $latitude);
     $req->bindParam(":longitude", $longitude);
-    $req->bindParam(":address", $address, PDO::PARAM_STR);
+    $req->bindParam(":time", $time);
     $req->bindParam(":active", $active, PDO::PARAM_INT);
     $req->bindParam(":image", $image, PDO::PARAM_STR);
     try {
@@ -567,6 +567,30 @@ function add_fountain($title, $latitude, $longitude, $address, $active, $image) 
     return $bdd->lastInsertId();
 }
 
+/* function add_fountain($title, $latitude, $longitude, $address, $active, $image) {
+  static $req = null;
+
+  $bdd = db_connect();
+
+  if ($req == null) {
+  $req = $bdd->prepare("INSERT INTO t_fountain(title, latitude, longitude, address, active, img) VALUES (:title, :latitude, :longitude, :address, :active, :image)");
+  }
+  $req->bindParam(":title", $title, PDO::PARAM_STR);
+  $req->bindParam(":latitude", $latitude);
+  $req->bindParam(":longitude", $longitude);
+  $req->bindParam(":address", $address, PDO::PARAM_STR);
+  $req->bindParam(":active", $active, PDO::PARAM_INT);
+  $req->bindParam(":image", $image, PDO::PARAM_STR);
+  try {
+  $req->execute();
+  } catch (Exception $e) {
+  //echo $e;
+  return false;
+  }
+
+  return $bdd->lastInsertId();
+  } */
+
 /**
  * Verifie et ajoute l'image d'une fontaine dans le dossié prévu à cette effet
  * @param int $id
@@ -575,7 +599,7 @@ function add_fountain($title, $latitude, $longitude, $address, $active, $image) 
  */
 function add_Fountain_image($file) {
     if (preg_match('#^.+\.(png|jpg|jpeg)$#', strtolower($file['name']), $matches)) {
-        $path = "../img/fountains/".$file["name"];
+        $path = "../img/fountains/" . $file["name"];
         return move_uploaded_file($file['tmp_name'], $path);
     }
 }
@@ -587,7 +611,6 @@ function add_Fountain_image($file) {
  * @param type $array
  * @return string
  */
-
 function show_fountains($array, $mode) {
     $affichage = "";
     $affichage .= '<table class="table table-responsive">';

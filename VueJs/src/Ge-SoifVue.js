@@ -1,3 +1,10 @@
+/*
+ * Object Ge-SoifVue used to manage functions relative to the map of fontains
+ *
+ * Authors :
+ * v1 : Marco Fernandes, Corentin Cotture, Dany Serigado, Luc Meier , Jasmina Travnjak
+ */
+
 // Permet l'éxécution du code (sinon ça ne marche pas)
 $(document).ready(function () {
 
@@ -13,10 +20,6 @@ $(document).ready(function () {
 
     // Slide contenant tous les boutons permettant d'ajouter une fontaine
 
-
-
-
-
     var slideAddFountain = new Vue({
         el: '.slideAddFountain',
         data: {
@@ -30,7 +33,9 @@ $(document).ready(function () {
                 // Envoi dans la BD
                 this.isDisplayed = false;//Cache le div d'ajout de fontaine
                 slideAddFountainBtn.isDisplayed = true; //Affiche le bouton à la fermeture de la slide
+                slideInfo.manageAddFountainWithAjax(); //Ajoute une fountain en Ajax
                 alert_popup.show("valide"); // Affiche la pop-up de validation par l'admin
+
             },
 
             // Quitte le mode "slideAddFountain"
@@ -63,7 +68,7 @@ $(document).ready(function () {
         el: '.slideInfoClosed',
         data: {
             isDisplayed: false, //Se cache au chargement de la page
-            address: "", // Set l'addresse à vide
+            address: "" // Set l'addresse à vide
         },
         methods: {
             backBtn: function () {
@@ -81,7 +86,8 @@ $(document).ready(function () {
             address: "", // Set l'addresse à vide
             tempsItineraire: "",
             distanceItineraire: "",
-            coord: ""
+            coord: "",
+            files:[]
         },
         methods: {
             backBtn: function () {
@@ -89,16 +95,59 @@ $(document).ready(function () {
                 this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
             },
             directions: function () {
-                //this.calcRoute(slideInfo.coord);
-                location.href = "https://www.google.fr/maps/dir/"+mapVue.currentPos+"/"+slideInfo.coord+"/";
-
+                /*this.calcRoute(slideInfo.coord);*/
+                 location.href = "https://www.google.fr/maps/dir/"+mapVue.currentPos+"/"+slideInfo.coord+"/";
             },
             closeBtn: function () {
                 slideInfoClosed.isDisplayed = false; // Affiche le morceau de fenêtre
                 this.isDisplayed = false; // Cache la fenêtre contenant toutes les informations de la fontaine
             },
+            manageAddFountainWithAjax: function () {
+
+                var arrayFiles = [];
+                var stringifiedArrayImage = "";
+                //var title = $("#title").val();
+                //var address = $("#address").val();
+               // var lat = $("#latitude").val();
+                //var lng = $("#longitude").val();
+                
+                var lat = mapVue.lat;
+                var lng = mapVue.lng;
+                
+
+                var data = new FormData();
+                //data.append('title', title);
+                //data.append('address', address);
+                //data.append('latitude', lat);
+                //data.append('longitude', lng);
+                
+                data.append('latitude', lat);
+                data.append('longitude', lng);
+                
+                
+                /*var fileData = new FormData();*/
+                $.each(this.files, function (key, value)
+                {
+                    data.append('imgFile', value);
+                });
+
+                $.ajax({url: './pages/ajaxCall.php?addFountain=true',
+                    data: data,
+                    type: 'post',
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        //handleUserMessages(messages.SUCCESSADD);
+                        alert_popup.show("valide");
+                        this.files = new Array();
+                    }
+                });
+                return false;
+
+
+            },
             calcRoute: function (destinationLatLng) {
-                var request = {
+                /*var request = {
                     origin: mapVue.currentPos,
                     destination: destinationLatLng,
                     travelMode: google.maps.TravelMode.WALKING
@@ -113,7 +162,6 @@ $(document).ready(function () {
                     if (status === google.maps.DirectionsStatus.OK) {
                         directionsDisplay.setDirections(result);
                         // Display the distance:
-                        //TODO à améliorer
                         if (distanceM < 1000) {
                             distanceItineraire = ("A pied " + distanceM + " mètres");
                         } else {
@@ -125,7 +173,7 @@ $(document).ready(function () {
                             tempsItineraire = ("A pied " + parseInt(tempsS / 60) + " minutes");
                         }
                     }
-                });
+                });*/
             },
 
         }
@@ -163,8 +211,7 @@ $(document).ready(function () {
             // Choix de la classe pour la notification
             isSuccess: false,
             isDanger: false,
-            isInfo: false,
-
+            isInfo: false
         },
         methods: {
             closed: function () {
@@ -218,7 +265,8 @@ $(document).ready(function () {
             currentPos: null,
             existingFountainMarkers: [], // Tableau ou sont stockées les coordonnées des markers
             positionProvisoire: [],
-            monTest: "salut"
+            lat: "",
+            lng: ""
         },
         watch: {
             currentPos: function () {
@@ -257,7 +305,11 @@ $(document).ready(function () {
             google.maps.event.addListener(this.map, 'click', function (event) {
                 if (markerEnable == true) { // Test si le marqueurs est activé, si c'est le cas place un markers à la position du clic.
                     slideAddFountain.imgLocation = 'img/Ge-Soif-Glyphicons/LocationOFF.png';
-                    mapVue.placeNewMarker(event.latLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker              
+                    var myLatLng = event.latLng;
+                    mapVue.lat = myLatLng.lat(); //Stock la latitude dans une variable lat
+                    mapVue.lng = myLatLng.lng(); //Stock la longitude dans une variable lng
+                    mapVue.placeNewMarker(myLatLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker    
+                    
                 }
             });
         },
@@ -327,23 +379,21 @@ $(document).ready(function () {
                     );
                 }
             },
-            markerFountainPlaced: function () { // Fonction qui affiche 7 markers sur la map
+            markerFountainPlaced: function () { // Fonction qui affiche les markers sur la map
                 $.get("./pages/ajaxCall.php", {getFountains: "true"}).done(function (data) {
                     var loadedFountains = JSON.parse(data)
-                    //new google.maps.LatLng//{lat: 46.184, lng: 6.148};
-                  
-                    $.each(loadedFountains, function(index,value){
+
+                   // alert("Data Loaded: " + loadedFountains);
+
+                    $.each(loadedFountains, function (index, value) {
                         var markerPlaced = new google.maps.Marker({
-                            position: new google.maps.LatLng(value.latitude,value.longitude),
+                            position: new google.maps.LatLng(value.latitude, value.longitude),
                             map: mapVue.map,
                             icon: 'img/geSoifExistingMarker.png'
                         });
                         mapVue.existingFountainMarkers.push(markerPlaced);
                     });
-
                     mapVue.addMarkersClickListener();
-
-
                 });
 
             },
@@ -373,6 +423,6 @@ $(document).ready(function () {
         data: {
             message: "GE-Soif",
             link: 'index.php'
-        },
+        }
     });
 });
