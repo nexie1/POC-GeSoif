@@ -97,7 +97,7 @@ if (isset($_REQUEST['latlng'])) {
 
         <div v-if="isDisplayed" class="slideInfoClosed">
             <div id="divBtnBack"  class="col-xs-2">
-                <img v-on:click="backBtn" class="stylePhoto backBtn2" id="BackBtn" alt="Ouverture de la slide" src="img/Ge-Soif-Glyphicons/flecheActive_blanc.png">
+                <img v-on:click="backBtn" class="backBtn2" id="BackBtn" alt="Ouverture de la slide" src="img/Ge-Soif-Glyphicons/flecheActive_blanc.png">
             </div>
         </div>
 

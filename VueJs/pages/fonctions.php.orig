@@ -600,7 +600,7 @@ function add_fountain($latitude, $longitude, $active, $image) {
 function add_Fountain_image($file) {
     if (preg_match('#^.+\.(png|jpg|jpeg)$#', strtolower($file['name']), $matches)) {
 <<<<<<< HEAD
-        $path = "../img/fountains/" . $file["name"];
+        $path = "../img/img_test/" . $file["name"];
 =======
         $path = "../img/img_test/".$file["name"];
 >>>>>>> GES-95: Finit mais a tester

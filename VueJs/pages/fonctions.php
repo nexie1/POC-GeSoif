@@ -599,7 +599,7 @@ function add_fountain($latitude, $longitude, $active, $image) {
  */
 function add_Fountain_image($file) {
     if (preg_match('#^.+\.(png|jpg|jpeg)$#', strtolower($file['name']), $matches)) {
-        $path = "../img/img_test/" . $file["name"];
+        $path = "../img/img_test/".$file["name"];
         return move_uploaded_file($file['tmp_name'], $path);
     }
 }
