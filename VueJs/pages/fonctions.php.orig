@@ -317,28 +317,37 @@ function delete_user($id) {
  * ------------------------------------------------------
  * @return array Tableaux multidimensionnel
  */
-<<<<<<< HEAD
-function get_fountains($swLat, $swLng, $neLat, $neLng) {
+function get_fountains($swLat = 0, $swLng = 0, $neLat = 0, $neLng = 0) {
 
-    $req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE latitude BETWEEN :swLat AND :neLat AND longitude BETWEEN :swLng AND :neLng');
-    $req->bindParam(':swLat', $swLat);
-    $req->bindParam(':swLng', $swLng);
-    $req->bindParam(':neLat', $neLat);
-    $req->bindParam(':neLng', $neLng);
+    $req = db_connect()->prepare('SELECT * FROM `t_fountain`');
+    /* $req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE latitude BETWEEN :swLat AND :neLat AND longitude BETWEEN :swLng AND :neLng AND active = 1');
+      $req->bindParam(':swLat', $swLat);
+      $req->bindParam(':swLng', $swLng);
+      $req->bindParam(':neLat', $neLat);
+      $req->bindParam(':neLng', $neLng); */
 
     $req->execute();
 
-=======
-function get_fountains($active = -1) {
-    //ne fonctionne pas
-    if ($active == 0 || $active == 1) {
-        $req = db_connect()->prepare('SELECT * FROM t_fountain WHERE active = ?');
-        $req->execute([$active]);
-    } else {
-        $req = db_connect()->prepare('SELECT * FROM t_fountain');
-        $req->execute();
+
+    $array = [];
+    while ($line = $req->fetch(PDO::FETCH_ASSOC)) {
+        $array[] = $line;
     }
->>>>>>> link searchBox to map
+    return $array;
+}
+
+/**
+ * Fonction qui recupere toutes les fontaines de la base
+ * ------------------------------------------------------
+ * @return array Tableaux multidimensionnel
+ */
+function get_fountains_admin($active) {
+
+    $req = db_connect()->prepare('SELECT * FROM `t_fountain` WHERE active = :active');
+    $req->bindParam(':active', $active);
+
+    $req->execute();
+
 
     $array = [];
     while ($line = $req->fetch(PDO::FETCH_ASSOC)) {
@@ -398,7 +407,7 @@ function modif_fountain_active($id, $isActive) {
  * @param int $id id de la fontaine
  * @return int|boolean le nombvre actuel de olpb | false
  */
-function add_one_less_plastic_bottle($id) {
+function add_one_less_plastic_bottle($idFountain) {
 
     static $req = null;
     static $reqOlpb = null;
@@ -406,22 +415,17 @@ function add_one_less_plastic_bottle($id) {
     //get current olpb
     if ($req == null) {
         $req = db_connect()->prepare('SELECT olpb FROM t_fountain WHERE idFountain = :id');
-        $req->bindParam(':id', $id, PDO::PARAM_INT);
+        $req->bindParam(':id', $idFountain, PDO::PARAM_INT);
     }
-    $req->execute([$id]);
+    $req->execute();
     $result = $req->fetch(PDO::FETCH_ASSOC);
-    //echo($result["olpb"]);
-<<<<<<< HEAD
     $newOlpb = $result["olpb"] + 1;
-=======
-    $newOlpb = $result["olpb"]+1;
->>>>>>> link searchBox to map
 
     //+1 olpb
     if ($reqOlpb == null) {
         $reqOlpb = db_connect()->prepare('UPDATE t_fountain SET olpb = :newOlpb WHERE idFountain = :id');
         $reqOlpb->bindParam(':newOlpb', $newOlpb, PDO::PARAM_INT);
-        $reqOlpb->bindParam(':id', $id, PDO::PARAM_INT);
+        $reqOlpb->bindParam(':id', $idFountain, PDO::PARAM_INT);
     }
     try {
         $reqOlpb->execute();
@@ -539,18 +543,18 @@ function delete_fountain_image($id) {
  * @param float $active
  * @return int|boolean lastID added in the DB | false
  */
-function add_fountain($title, $latitude, $longitude, $address, $active, $image) {
+function add_fountain($latitude, $longitude, $active, $image) {
     static $req = null;
+    $time = date("Y-m-d H:i:s");
 
     $bdd = db_connect();
 
     if ($req == null) {
-        $req = $bdd->prepare("INSERT INTO t_fountain(title, latitude, longitude, address, active, img) VALUES (:title, :latitude, :longitude, :address, :active, :image)");
+        $req = $bdd->prepare("INSERT INTO t_fountain(latitude, longitude,time, active, img) VALUES (:latitude, :longitude, :time, :active, :image)");
     }
-    $req->bindParam(":title", $title, PDO::PARAM_STR);
     $req->bindParam(":latitude", $latitude);
     $req->bindParam(":longitude", $longitude);
-    $req->bindParam(":address", $address, PDO::PARAM_STR);
+    $req->bindParam(":time", $time);
     $req->bindParam(":active", $active, PDO::PARAM_INT);
     $req->bindParam(":image", $image, PDO::PARAM_STR);
     try {
@@ -563,95 +567,45 @@ function add_fountain($title, $latitude, $longitude, $address, $active, $image) 
     return $bdd->lastInsertId();
 }
 
+/* function add_fountain($title, $latitude, $longitude, $address, $active, $image) {
+  static $req = null;
+
+  $bdd = db_connect();
+
+  if ($req == null) {
+  $req = $bdd->prepare("INSERT INTO t_fountain(title, latitude, longitude, address, active, img) VALUES (:title, :latitude, :longitude, :address, :active, :image)");
+  }
+  $req->bindParam(":title", $title, PDO::PARAM_STR);
+  $req->bindParam(":latitude", $latitude);
+  $req->bindParam(":longitude", $longitude);
+  $req->bindParam(":address", $address, PDO::PARAM_STR);
+  $req->bindParam(":active", $active, PDO::PARAM_INT);
+  $req->bindParam(":image", $image, PDO::PARAM_STR);
+  try {
+  $req->execute();
+  } catch (Exception $e) {
+  //echo $e;
+  return false;
+  }
+
+  return $bdd->lastInsertId();
+  } */
+
 /**
  * Verifie et ajoute l'image d'une fontaine dans le dossié prévu à cette effet
  * @param int $id
  * @param array $file
  * @return boolean
  */
-function add_Fountain_image($nomImage, $file) {
-    $result = false;
-
-    if (preg_match('#^.+\.(png|jpg|jpeg)$#', strtolower($file[0]))) {
-
-        //retire les chars qui ne font pas partie de l'image encodée
-        $fileLength = strlen($file[1][0]);
-        $cpt = 0;
-
-        while ($file[1][0][$cpt++] != ',' && $cpt < $fileLength) {
-
-        }
-        $file[1][0] = substr($file[1][0], $cpt--);
-
-        //concatene les chaines de fichiers encodé
-        $fileEncoded = "";
-        for ($indexStringPieces = 0; $indexStringPieces < count($file[1]); $indexStringPieces++) {
-            $fileEncoded .= $file[1][$indexStringPieces];
-        }
-
-        //http://stackoverflow.com/questions/5373544/php-size-of-base64-encode-string-file
-        $fileSize = (int) (strlen(rtrim($fileEncoded, '=')) * 3 / 4);
-
-        //check the size -> max: 4 Mb
-        if ($fileSize <= 4 * pow(10, 6)) {
-            //décode et créer le code de l'image
-            $fileDecoded = base64_decode($fileEncoded);
-            $result = file_put_contents("../img/fountains/" . $nomImage, $fileDecoded);
-        }
-    }
-
-    return $result;
-}
-
-/* * **************************************** PAGE GESTION FONTAINES *************************************** */ //NOT DONE YET !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-/** Fonction pour afficher les fontaines
- * --------------------------------------
- * @param type $array
- * @param type $mode
- * @return string
- */
-function show_fountains($array, $mode) {
-    $affichage = "";
-    $affichage .= '<table class="table table-responsive">';
-    $affichage .= '<tr>';
-    $affichage .= '<th>Numéro de la fontainte</th>';
-    $affichage .= '<th>Adresse</th>';
-    $affichage .= '<th>Nom</th>';
-    $affichage .= '<th>Image</th>';
-    $affichage .= '<th> Voir sur la carte</th>';
-    $affichage .= '<th>Action</th>';
-    $affichage .= '</tr>';
-    for ($i = 0; $i < count($array); $i++) {
-        if ($array[$i]['active'] == $mode) {
-            $affichage.="<tr>";
-            $affichage.="<td>" . $array[$i]["idFountain"] . "</td>";
-            $affichage.="<td>" . $array[$i]["address"] . "</td>";
-            $affichage.="<td>" . $array[$i]["title"] . "</td>";
-            $affichage.="<td><img src='./img/fountains/" . $array[$i]["img"] . "' class='img-thumbnail' alt='Image Fontaine' width='50' height='50'/></td>";
-            $affichage.="<td>";
-            $affichage.="<a href='index.php?mode=validation&latlng=" . $array[$i]["latitude"] . "," . $array[$i]["longitude"] . "'>";
-            $affichage.="<span class='glyphicon glyphicon-search'></span>";
-            $affichage.="</a>";
-            $affichage.="</td>";
-
-            if ($mode == 0) {//si desactivée
-                $affichage .= "<td><a href='valider_fontaine.php?id=" . $array[$i]["idFountain"] . "&mode=1'><span class='glyphicon glyphicon-ok' title='Valider'></span></a>&nbsp;&nbsp;";
-                $affichage .="<a href='supprimer_fontaine.php?id=" . $array[$i]["idFountain"] . "'><span class='glyphicon glyphicon-trash' title='Supprimer'></span></a></td>";
+function add_Fountain_image($file) {
+    if (preg_match('#^.+\.(png|jpg|jpeg)$#', strtolower($file['name']), $matches)) {
 <<<<<<< HEAD
+        $path = "../img/fountains/" . $file["name"];
 =======
-
->>>>>>> link searchBox to map
-            } else {//si activée
-                $affichage .= '<td><a href="valider_fontaine.php?id=' . $array[$i]["idFountain"] . '&mode=0"><span class="glyphicon glyphicon-remove" title="Désactiver"></span></a>&nbsp;&nbsp;';
-                $affichage .= "<a href='supprimer_fontaine.php?id=" . $array[$i]["idFountain"] . "'><span class='glyphicon glyphicon-trash' title='Supprimer'></span></a></td>";
-            }
-
-            $affichage.="</tr>";
-        }
+        $path = "../img/img_test/".$file["name"];
+>>>>>>> GES-95: Finit mais a tester
+        return move_uploaded_file($file['tmp_name'], $path);
     }
-    $affichage.="</table>";
-    return $affichage;
 }
 
 /* * **************************************** PAGE GESTION UTILISATEURS *************************************** */
@@ -661,6 +615,47 @@ function show_fountains($array, $mode) {
  * @param type $array
  * @return string
  */
+function show_fountains($array, $mode) {
+    $affichage = "";
+    $affichage .= '<table class="table table-responsive">';
+    $affichage .= '<tr>';
+    $affichage .= '<th>Numéro de la fontainte</th>';
+    $affichage .= '<th>Adresse</th>';
+    $affichage .= '<th>Nom</th>';
+    $affichage .= '<th>Date</th>';
+    $affichage .= '<th>Image</th>';
+    $affichage .= '<th> Voir sur la carte</th>';
+    $affichage .= '<th>Action</th>';
+    $affichage .= '</tr>';
+    for ($i = 0; $i < count($array); $i++) {
+        if ($array[$i]['active'] == $mode) {
+            $affichage .= "<tr>";
+            $affichage .= "<td>" . $array[$i]["idFountain"] . "</td>";
+            $affichage .= "<td>" . $array[$i]["address"] . "</td>";
+            $affichage .= "<td>" . $array[$i]["title"] . "</td>";
+            $affichage .= "<td>" . $array[$i]["time"] . "</td>";
+            $affichage .= "<td><img src='./img/fountains/" . $array[$i]["img"] . "' class='img-thumbnail' alt='Image Fontaine' width='50' height='50'/></td>";
+            $affichage .= "<td>";
+            $affichage .= "<a href='index.php?mode=validation&latlng=" . $array[$i]["latitude"] . "," . $array[$i]["longitude"] . "'>";
+            $affichage .= "<span class='glyphicon glyphicon-search'></span>";
+            $affichage .= "</a>";
+            $affichage .= "</td>";
+
+            if ($mode == 0) {/* si desactivée */
+                $affichage .= "<td><a href='valider_fontaine.php?id=" . $array[$i]["idFountain"] . "&mode=1'><span class='glyphicon glyphicon-ok' title='Valider'></span></a>&nbsp;&nbsp;";
+                $affichage .= "<a href='supprimer_fontaine.php?id=" . $array[$i]["idFountain"] . "'><span class='glyphicon glyphicon-trash' title='Supprimer'></span></a></td>";
+            } else {//si activée
+                $affichage .= '<td><a href="valider_fontaine.php?id=' . $array[$i]["idFountain"] . '&mode=0"><span class="glyphicon glyphicon-remove" title="Désactiver"></span></a>&nbsp;&nbsp;';
+                $affichage .= "<a href='supprimer_fontaine.php?id=" . $array[$i]["idFountain"] . "'><span class='glyphicon glyphicon-trash' title='Supprimer'></span></a></td>";
+            }
+
+            $affichage .= "</tr>";
+        }
+    }
+    $affichage .= "</table>";
+    return $affichage;
+}
+
 function affiche_utilisateur($array) {
     $affichage = "";
     $affichage = '<div class="liste_utilisateurs">';
