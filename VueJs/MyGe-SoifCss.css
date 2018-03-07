@@ -24,6 +24,10 @@ body {
     overflow-y: scroll;
 }
 
+#reseauxSociaux{
+    float: right;
+}
+
 #InstIcoone{
     margin-top: 10px;
 }
