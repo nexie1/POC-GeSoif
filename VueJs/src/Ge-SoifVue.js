@@ -87,7 +87,16 @@ $(document).ready(function () {
             tempsItineraire: "",
             distanceItineraire: "",
             coord: "",
-            files:[]
+            files: []
+        },
+        watch: {
+            coord: function () {
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({'latLng': slideInfo.coord}, function (result, status) {
+                    var res = result;
+                    slideInfo.address = res[0].formatted_address;
+                });
+            }
         },
         methods: {
             backBtn: function () {
@@ -96,7 +105,7 @@ $(document).ready(function () {
             },
             directions: function () {
                 /*this.calcRoute(slideInfo.coord);*/
-                 location.href = "https://www.google.fr/maps/dir/"+mapVue.currentPos+"/"+slideInfo.coord+"/";
+                location.href = "https://www.google.fr/maps/dir/" + mapVue.currentPos + "/" + slideInfo.coord + "/";
             },
             closeBtn: function () {
                 slideInfoClosed.isDisplayed = false; // Affiche le morceau de fenêtre
@@ -106,26 +115,15 @@ $(document).ready(function () {
 
                 var arrayFiles = [];
                 var stringifiedArrayImage = "";
-                //var title = $("#title").val();
-                //var address = $("#address").val();
-               // var lat = $("#latitude").val();
-                //var lng = $("#longitude").val();
-                
+
                 var lat = mapVue.lat;
                 var lng = mapVue.lng;
-                
 
                 var data = new FormData();
-                //data.append('title', title);
-                //data.append('address', address);
-                //data.append('latitude', lat);
-                //data.append('longitude', lng);
-                
+
                 data.append('latitude', lat);
                 data.append('longitude', lng);
-                
-                
-                /*var fileData = new FormData();*/
+
                 $.each(this.files, function (key, value)
                 {
                     data.append('imgFile', value);
@@ -143,39 +141,36 @@ $(document).ready(function () {
                     }
                 });
                 return false;
-
-
             },
             calcRoute: function (destinationLatLng) {
                 /*var request = {
-                    origin: mapVue.currentPos,
-                    destination: destinationLatLng,
-                    travelMode: google.maps.TravelMode.WALKING
-                            //WALKING / DRIVING / BICYCLING / TRANSIT /
-                };
-                var directionsService = new google.maps.DirectionsService;
-                var directionsDisplay = new google.maps.DirectionsRenderer;
-                directionsDisplay.setMap(mapVue.map);
-                directionsService.route(request, function (result, status) {
-                    var distanceM = result.routes[0].legs[0].distance.value;
-                    var tempsS = result.routes[0].legs[0].duration.value;
-                    if (status === google.maps.DirectionsStatus.OK) {
-                        directionsDisplay.setDirections(result);
-                        // Display the distance:
-                        if (distanceM < 1000) {
-                            distanceItineraire = ("A pied " + distanceM + " mètres");
-                        } else {
-                            distanceItineraire = ("A pied " + parseFloat(distanceM / 1000).toFixed(2) + " kilomètres");
-                        }
-                        if (tempsS < 60) {
-                            tempsItineraire = ("A pied " + "moins d'une minute");
-                        } else {
-                            tempsItineraire = ("A pied " + parseInt(tempsS / 60) + " minutes");
-                        }
-                    }
-                });*/
-            },
-
+                 origin: mapVue.currentPos,
+                 destination: destinationLatLng,
+                 travelMode: google.maps.TravelMode.WALKING
+                 //WALKING / DRIVING / BICYCLING / TRANSIT /
+                 };
+                 var directionsService = new google.maps.DirectionsService;
+                 var directionsDisplay = new google.maps.DirectionsRenderer;
+                 directionsDisplay.setMap(mapVue.map);
+                 directionsService.route(request, function (result, status) {
+                 var distanceM = result.routes[0].legs[0].distance.value;
+                 var tempsS = result.routes[0].legs[0].duration.value;
+                 if (status === google.maps.DirectionsStatus.OK) {
+                 directionsDisplay.setDirections(result);
+                 // Display the distance:
+                 if (distanceM < 1000) {
+                 distanceItineraire = ("A pied " + distanceM + " mètres");
+                 } else {
+                 distanceItineraire = ("A pied " + parseFloat(distanceM / 1000).toFixed(2) + " kilomètres");
+                 }
+                 if (tempsS < 60) {
+                 tempsItineraire = ("A pied " + "moins d'une minute");
+                 } else {
+                 tempsItineraire = ("A pied " + parseInt(tempsS / 60) + " minutes");
+                 }
+                 }
+                 });*/
+            }
         }
     });
 
@@ -194,9 +189,6 @@ $(document).ready(function () {
             }
         }
     });
-
-
-
 
     /******************************************************
      ******************** POP-UP ***************************
@@ -250,8 +242,6 @@ $(document).ready(function () {
             }
         }
     });
-
-
 
     /******************************************************
      ******************** MAP ******************************
@@ -309,7 +299,7 @@ $(document).ready(function () {
                     mapVue.lat = myLatLng.lat(); //Stock la latitude dans une variable lat
                     mapVue.lng = myLatLng.lng(); //Stock la longitude dans une variable lng
                     mapVue.placeNewMarker(myLatLng); // Si markerEnable = true, donc si on clique sur le bouton "+", on peux placer un marker    
-                    
+
                 }
             });
         },
@@ -347,18 +337,12 @@ $(document).ready(function () {
                     slideAddFountain.address = res[0].formatted_address; // res[0] correspond à la précision ultime de GG.map
                 });
             },
-            addMarkersClickListener: function (clickedMarker, infoWindow) {// Permet d'afficher l'adresse dans la slide d'info de fontaine
+            addMarkersClickListener: function () {// Permet d'afficher l'adresse dans la slide d'info de fontaine
                 $.each(this.existingFountainMarkers, function (index, value) {
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({'latLng': value.position}, function (result, status) {
-                        var res = result;
-                        value.addListener("click", function () {
-                            slideInfo.isDisplayed = true; // Affiche la slide info
-                            slideInfoClosed.isDisplayed = false; // Cache la slide info fermée
-                            slideInfo.address = res[0].formatted_address;
-                            slideInfo.coord = value.position;
-                        }
-                        );
+                    value.addListener("click", function () {
+                        slideInfo.isDisplayed = true; // Affiche la slide info
+                        slideInfoClosed.isDisplayed = false; // Cache la slide info fermée        
+                        slideInfo.coord = value.position;
                     });
                 });
             },
@@ -383,7 +367,7 @@ $(document).ready(function () {
                 $.get("./pages/ajaxCall.php", {getFountains: "true"}).done(function (data) {
                     var loadedFountains = JSON.parse(data)
 
-                   // alert("Data Loaded: " + loadedFountains);
+                    // alert("Data Loaded: " + loadedFountains);
 
                     $.each(loadedFountains, function (index, value) {
                         var markerPlaced = new google.maps.Marker({
